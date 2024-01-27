@@ -11,7 +11,7 @@ services:
     depends_on:
       - db
   db:
-    image: mongo:6.0.13-jammy
+    image: mongo:4.4.28-focal
     restart: always
     volumes:
       - gan-an-wo:/data/db
