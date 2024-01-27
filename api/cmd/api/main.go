@@ -22,6 +22,6 @@ func main() {
 
 	appPort := os.Getenv("APP_PORT")
 	if err := app.Listen(":" + appPort); err != nil {
-		log.Fatalln("error: failed to listen to port 8000,", err)
+		log.Fatalln("error: failed to listen,", err)
 	}
 }
