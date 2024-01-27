@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log"
 	"os"
 	"strconv"
@@ -11,6 +12,7 @@ import (
 	_ "github.com/joho/godotenv/autoload"
 	"github.com/kamva/mgm/v3"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
@@ -32,6 +34,18 @@ func NewPaslon(id int, name string, score uint) *Paslon {
 func init() {
 	if err := mgm.SetDefaultConfig(nil, "gan-an-wo", options.Client().ApplyURI(os.Getenv("MONGODB_URL"))); err != nil {
 		log.Fatalln("error: failed to connect to database,", err)
+	}
+
+	unique := true
+	indexModel := mongo.IndexModel{
+		Keys: bson.D{{"id", 1}}, //nolint:all
+		Options: &options.IndexOptions{
+			Unique: &unique,
+		},
+	}
+
+	if _, err := mgm.Coll(&Paslon{}).Indexes().CreateOne(context.Background(), indexModel); err != nil {
+		log.Fatalln("error: failed to create id index,", err)
 	}
 
 	amin := &Paslon{}
@@ -153,5 +167,7 @@ func main() {
 		}
 	}))
 
-	app.Listen(":8080")
+	if err := app.Listen(":8080"); err != nil {
+		log.Fatalln("error: failed to listen to port 8000,", err)
+	}
 }

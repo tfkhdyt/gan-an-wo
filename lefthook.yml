@@ -1,0 +1,18 @@
+pre-commit:
+  parallel: true
+  commands:
+    backend-lint:
+      root: "api/"
+      run: golangci-lint run
+    backend-format:
+      root: "api/"
+      run: gofumpt -w .
+    backend-lines:
+      root: "api/"
+      run: golines -m 80 -w .
+pre-push:
+  parallel: true
+  commands:
+    backend-outdated-deps:
+      root: "api/"
+      run: test $(go list -u -m -json all | go-mod-outdated -update -direct | wc -l) -eq 4
