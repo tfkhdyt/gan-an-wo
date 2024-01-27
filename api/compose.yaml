@@ -1,0 +1,23 @@
+services:
+  server:
+    build: .
+    restart: on-failure
+    ports:
+      - '8080:8080'
+    environment:
+      APP_PORT: 8080
+      MONGODB_URL: 'mongodb://mongo:mongo@db:27017'
+      MONGODB_NAME: gan-an-wo
+    depends_on:
+      - db
+  db:
+    image: mongo:6.0.13-jammy
+    restart: always
+    volumes:
+      - gan-an-wo:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: mongo
+      MONGO_INITDB_DATABASE: gan-an-wo
+volumes:
+  gan-an-wo:
