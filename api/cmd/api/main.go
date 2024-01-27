@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"os"
 
 	"github.com/gofiber/fiber/v2"
 	_ "github.com/joho/godotenv/autoload"
@@ -19,7 +20,8 @@ func main() {
 
 	route.RegisterScoreRoute(app)
 
-	if err := app.Listen(":8080"); err != nil {
+	appPort := os.Getenv("APP_PORT")
+	if err := app.Listen(":" + appPort); err != nil {
 		log.Fatalln("error: failed to listen to port 8000,", err)
 	}
 }
