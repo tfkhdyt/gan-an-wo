@@ -1,25 +1,22 @@
 package usecase
 
 import (
-	"fmt"
-
-	"github.com/kamva/mgm/v3"
-	"go.mongodb.org/mongo-driver/bson"
-
 	"github.com/tfkhdyt/gan-an-wo/api/internal/dto"
-	"github.com/tfkhdyt/gan-an-wo/api/internal/model"
+	"github.com/tfkhdyt/gan-an-wo/api/internal/repository"
 )
 
-type ScoreUsecase struct{}
+type ScoreUsecase struct {
+	userRepo repository.ScoreRepo
+}
 
-func NewScoreUsecase() *ScoreUsecase {
-	return &ScoreUsecase{}
+func NewScoreUsecase(userRepo repository.ScoreRepo) *ScoreUsecase {
+	return &ScoreUsecase{userRepo}
 }
 
 func (s *ScoreUsecase) List() (*dto.ListScoreResponse, error) {
-	paslon := []model.Paslon{}
-	if err := mgm.Coll(&model.Paslon{}).SimpleFind(&paslon, bson.M{}); err != nil {
-		return nil, fmt.Errorf("failed to get scores from db. %v", err)
+	paslon, err := s.userRepo.List()
+	if err != nil {
+		return nil, err
 	}
 
 	response := &dto.ListScoreResponse{}
@@ -36,14 +33,8 @@ func (s *ScoreUsecase) List() (*dto.ListScoreResponse, error) {
 }
 
 func (s *ScoreUsecase) Submit(paslon int) (*dto.SubmitScoreResponse, error) {
-	selectedPaslon := &model.Paslon{}
-	if err := mgm.Coll(selectedPaslon).First(bson.M{"id": paslon}, selectedPaslon); err != nil {
-		return nil, fmt.Errorf("failed to find paslon")
-	}
-
-	selectedPaslon.Score++
-	if err := mgm.Coll(selectedPaslon).Update(selectedPaslon); err != nil {
-		return nil, fmt.Errorf("failed to update score")
+	if err := s.userRepo.Submit(paslon); err != nil {
+		return nil, err
 	}
 
 	response := &dto.SubmitScoreResponse{
