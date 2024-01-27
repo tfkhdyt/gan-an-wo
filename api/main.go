@@ -17,10 +17,10 @@ import (
 )
 
 type Paslon struct {
-	mgm.DefaultModel `bson:",inline"`
-	ID               int    `json:"id" bson:"id"`
-	Name             string `json:"name" bson:"name"`
-	Score            uint   `json:"score" bson:"score"`
+	mgm.DefaultModel `       bson:",inline"`
+	ID               int    `bson:"id"      json:"id"`
+	Name             string `bson:"name"    json:"name"`
+	Score            uint   `bson:"score"   json:"score"`
 }
 
 func NewPaslon(id int, name string, score uint) *Paslon {
