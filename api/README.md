@@ -20,7 +20,7 @@ docker compose up -d
 
 #### Endpoint
 
-`ws://103.172.34.210:8080/scores/list`
+`ws://103.172.34.210:8080/scores/leaderboard`
 
 #### Description
 
