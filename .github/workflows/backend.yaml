@@ -1,0 +1,29 @@
+name: Backend Deployment
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "api/**"
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and push the image
+        working-directory: "./api"
+        run: "docker login --username tfkhdyt --password ${{ secrets.DOCKER_PASS }} \ndocker build -t tfkhdyt/gan-an-wo-api:latest .\ndocker push tfkhdyt/gan-an-wo-api:latest\n"
+    # - name: SSH into server and restart Docker container
+    #   uses: appleboy/ssh-action@v1.0.2
+    #   with:
+    #     host: ${{ secrets.SERVER_HOST }}
+    #     username: ${{ secrets.SERVER_USERNAME }}
+    #     password: ${{ secrets.SERVER_PASSWORD }}
+    #     script: |
+    #       podman login --username tfkhdyt --password ${{ secrets.GH_PAT }} ghcr.io || exit 1
+    #       podman auto-update || exit 1
+    #       podman image prune -f
+    # podman pull ghcr.io/netovas-projects/crm-netovas-backoff:latest || exit 1
+    # podman stop crm-netovas-backoff || true
+    # podman rm crm-netovas-backoff || true
+    # podman run -d --name crm-netovas-backoff -p 8080:8080 -v "/etc/crm-netovas-backoff/config.toml:/app/config.toml" -v "crm-netovas-backoff-data:/app/public" ghcr.io/netovas-projects/crm-netovas-backoff:latest || exit 1
