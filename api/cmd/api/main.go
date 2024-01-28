@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	_ "github.com/joho/godotenv/autoload"
 
 	"github.com/tfkhdyt/gan-an-wo/api/internal/database"
@@ -17,6 +18,7 @@ func init() {
 
 func main() {
 	app := fiber.New()
+	app.Use(cors.New())
 
 	route.RegisterScoreRoute(app)
 
