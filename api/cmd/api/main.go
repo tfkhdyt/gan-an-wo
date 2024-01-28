@@ -24,6 +24,6 @@ func main() {
 
 	appPort := os.Getenv("APP_PORT")
 	if err := app.Listen(":" + appPort); err != nil {
-		log.Fatalln("error: failed to listen,", err)
+		log.Fatalf("error: failed to listen to port %v. %v\n", appPort, err)
 	}
 }
