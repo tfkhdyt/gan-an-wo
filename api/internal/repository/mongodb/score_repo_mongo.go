@@ -2,6 +2,7 @@ package mongodb
 
 import (
 	"fmt"
+	"sort"
 
 	"github.com/kamva/mgm/v3"
 	"go.mongodb.org/mongo-driver/bson"
@@ -16,10 +17,12 @@ func NewScoreRepoMong() *ScoreRepoMongo {
 }
 
 func (s *ScoreRepoMongo) List() ([]model.Paslon, error) {
-	paslon := []model.Paslon{}
+	paslon := model.Paslons{}
 	if err := mgm.Coll(&model.Paslon{}).SimpleFind(&paslon, bson.M{}); err != nil {
 		return nil, fmt.Errorf("failed to get scores from db. %v", err)
 	}
+
+	sort.Sort(paslon)
 
 	return paslon, nil
 }
