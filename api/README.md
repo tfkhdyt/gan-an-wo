@@ -16,11 +16,11 @@ docker compose up -d
 
 ## API Documentation
 
-### List Scores
+### Leaderboard
 
 #### Endpoint
 
-`ws://103.172.34.210:8080/scores/leaderboard`
+`wss://api.gananwo.click/scores/leaderboard`
 
 #### Description
 
@@ -43,7 +43,7 @@ Retrieves a list of scores for different candidates.
 
 #### Endpoint
 
-`ws://103.172.34.210:8080/scores/submit`
+`wss://api.gananwo.click/scores/submit`
 
 #### Description
 
