@@ -16,3 +16,18 @@ func NewPaslon(id int, name string, score uint) *Paslon {
 		Score: score,
 	}
 }
+
+type Paslons []Paslon
+
+func (s Paslons) Len() int {
+	return len(s)
+}
+
+func (s Paslons) Swap(i, j int) {
+	s[i], s[j] = s[j], s[i]
+}
+
+func (s Paslons) Less(i, j int) bool {
+	// Sort in descending order based on the "Score" field
+	return s[i].Score > s[j].Score
+}

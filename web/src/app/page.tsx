@@ -22,19 +22,25 @@ export default function Home() {
 		const audio = new Audio(Bruh);
 
 		const handleClick = () => {
+			audio.pause();
+			audio.currentTime = 0;
 			console.log("Klik terdeteksi!");
 			audio.play();
 		};
 
 		const handleRightClick = (event: { preventDefault: () => void }) => {
 			event.preventDefault();
+			audio.pause();
+			audio.currentTime = 0;
 			console.log("Klik kanan terdeteksi!");
 			audio.play();
 		};
 		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 		const handleKeyPress = (event: { key: any }) => {
-			audio.play();
+			audio.pause();
+			audio.currentTime = 0;
 			console.log("Key terdeteksi");
+			audio.play();
 		};
 
 		document.addEventListener("click", handleClick);
