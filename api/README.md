@@ -20,7 +20,7 @@ docker compose up -d
 
 #### Endpoint
 
-`ws://103.172.34.211:8081/scores/list`
+`ws://103.172.34.210:8080/scores/list`
 
 #### Description
 
@@ -43,7 +43,7 @@ Retrieves a list of scores for different candidates.
 
 #### Endpoint
 
-`ws://103.172.34.211:8081/scores/submit`
+`ws://103.172.34.210:8080/scores/submit`
 
 #### Description
 
