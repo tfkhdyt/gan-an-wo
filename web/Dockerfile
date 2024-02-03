@@ -1,4 +1,4 @@
-FROM node:20.11.0-alpine3.19 AS builder
+FROM node:20.11.0-slim AS builder
 WORKDIR /app
 COPY package.json ./
 RUN npm i
