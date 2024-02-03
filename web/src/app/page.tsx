@@ -1,6 +1,12 @@
 'use client';
 
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+import {
   AlertDialog,
   AlertDialogContent,
   AlertDialogDescription,
@@ -17,15 +23,45 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Separator } from '@/components/ui/separator';
 import Image from 'next/image';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import useWebSocket from 'react-use-websocket';
 
 type Input = {
   paslon: string;
+};
+
+type ResponseMessage = {
+  success: boolean;
+  data: Partner[];
+};
+
+type Partner = {
+  id: number;
+  name: string;
+  score: number;
 };
 
 export default function Home() {
   const [isModalOpen, setModalOpen] = useState(false);
   const form = useForm<Input>();
   const [paslon, setPaslon] = useState('');
+  const [skor, setSkor] = useState(0);
+
+  const [leaderboardMessage, setLeaderboardMessage] =
+    useState<ResponseMessage | null>(null);
+
+  const { sendJsonMessage } = useWebSocket(
+    'wss://api.gananwo.click/scores/submit'
+  );
+
+  const { lastJsonMessage } = useWebSocket(
+    'wss://api.gananwo.click/scores/leaderboard',
+    {
+      onMessage: (event) => {
+        const message = JSON.parse(event.data);
+        setLeaderboardMessage(message);
+      },
+    }
+  );
 
   const onSubmit: SubmitHandler<Input> = (data) => {
     if (typeof window !== 'undefined') {
@@ -36,8 +72,6 @@ export default function Home() {
   };
 
   useEffect(() => {
-    // const paslon = localStorage.getItem('pilihan-capres');
-
     if (paslon) {
       let audioFile = '';
       switch (paslon) {
@@ -58,14 +92,23 @@ export default function Home() {
 
       const handleClick = (event: { preventDefault: () => void }) => {
         event.preventDefault();
+        handleSkor();
         audio.pause();
+        sendJsonMessage(Number(paslon));
+
         audio.currentTime = 0;
         audio.play();
+      };
+
+      const handleSkor = () => {
+        setSkor(skor + 1);
+        localStorage.setItem('skor', skor.toString());
       };
 
       document.addEventListener('click', handleClick);
       document.addEventListener('contextmenu', handleClick);
       document.addEventListener('keypress', handleClick);
+
       return () => {
         document.removeEventListener('click', handleClick);
         document.removeEventListener('contextmenu', handleClick);
@@ -76,17 +119,22 @@ export default function Home() {
 
   useEffect(() => {
     const item = localStorage.getItem('pilihan-capres');
+    const skor = localStorage.getItem('skor');
     if (item) {
       setPaslon(item);
+      setSkor(Number(skor));
     } else {
       setModalOpen(true);
     }
   }, []);
 
   return (
-    <div className='flex min-h-screen flex-col items-center bg-gray-100 w-screen justify-center'>
-      <h1 className='text-2xl'>Gan-An-Wo</h1>
-      <h1 className='text-2xl'>Anda Memilih Paslon No {paslon}</h1>
+    <div className='flex min-h-screen flex-col items-center bg-gray-100 w-screen justify-center relative'>
+      <div className='text-center'>
+        <h1 className='text-2xl'>Gan-An-Wo</h1>
+        <h1 className='text-2xl'>Anda Memilih Paslon No {paslon}</h1>
+        <h1 className='text-2xl'>Skor {skor}</h1>
+      </div>
 
       <AlertDialog open={isModalOpen}>
         <AlertDialogContent>
@@ -280,6 +328,24 @@ export default function Home() {
           </AlertDialogHeader>
         </AlertDialogContent>
       </AlertDialog>
+      <div className='absolute bottom-0 w-64'>
+        <Accordion type='single' collapsible>
+          <AccordionItem value='item-1'>
+            <AccordionTrigger>Total Skor</AccordionTrigger>
+            <AccordionContent>
+              <div className='flex flex-col'>
+                {leaderboardMessage?.data.map((data) => {
+                  return (
+                    <p>
+                      {data.name}: {data.score}
+                    </p>
+                  );
+                })}
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </div>
     </div>
   );
 }
