@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -21,6 +22,16 @@ func main() {
 	app.Use(cors.New())
 
 	route.RegisterScoreRoute(app)
+	app.Post("/callback/saweria", func(c *fiber.Ctx) error {
+		if c.Query("secret") != os.Getenv("SAWERIA_SECRET") {
+			fmt.Println("error")
+			return fiber.NewError(fiber.StatusUnauthorized, "invalid secret")
+		}
+
+		fmt.Println(string(c.Body()))
+
+		return c.Status(fiber.StatusCreated).SendString("ok")
+	})
 
 	appPort := os.Getenv("APP_PORT")
 	if err := app.Listen(":" + appPort); err != nil {
