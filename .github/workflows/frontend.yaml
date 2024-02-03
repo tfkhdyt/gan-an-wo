@@ -1,0 +1,15 @@
+name: Frontend Deployment
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "web/**"
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and push the image
+        working-directory: "./web"
+        run: "docker login --username tfkhdyt --password ${{ secrets.DOCKER_PASS }} \ndocker build -t tfkhdyt/gan-an-wo-web:latest .\ndocker push tfkhdyt/gan-an-wo-web:latest\n"
