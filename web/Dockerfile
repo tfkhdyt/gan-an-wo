@@ -1,6 +1,8 @@
 FROM node:21.6.1-alpine3.19 AS builder
 WORKDIR /app
 COPY package.json ./
+ARG API_URL
+ENV NEXT_PUBLIC_API_URL ${API_URL}
 RUN npm i
 COPY . .
 RUN npm run build

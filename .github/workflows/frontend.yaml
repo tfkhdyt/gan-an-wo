@@ -13,4 +13,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build and push the image
         working-directory: "./web"
-        run: "docker login --username tfkhdyt --password ${{ secrets.DOCKER_PASS }} \ndocker build -t tfkhdyt/gan-an-wo-web:latest .\ndocker push tfkhdyt/gan-an-wo-web:latest\n"
+        run: |
+          docker login --username tfkhdyt --password ${{ secrets.DOCKER_PASS }}
+          docker build -t tfkhdyt/gan-an-wo-web:latest --build-arg API_URL=${{ env.API_URL }} .
+          docker push tfkhdyt/gan-an-wo-web:latest
