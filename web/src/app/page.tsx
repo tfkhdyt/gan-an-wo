@@ -48,10 +48,12 @@ export default function Home() {
 	const [paslon, setPaslon] = useAtom(pilihanCapresAtom);
 	const [localScore, setLocalScore] = useAtom(localScoreAtom);
 
-	const { sendMessage } = useWebSocket("wss://api.gananwo.click/scores/submit");
+	const { sendMessage } = useWebSocket(
+		`${process.env.NEXT_PUBLIC_API_URL}/scores/submit`,
+	);
 
 	const { lastJsonMessage: leaderboard } = useWebSocket<ResponseMessage | null>(
-		"wss://api.gananwo.click/scores/leaderboard",
+		`${process.env.NEXT_PUBLIC_API_URL}/scores/leaderboard`,
 	);
 
 	const onSubmit: SubmitHandler<Input> = (data) => {
