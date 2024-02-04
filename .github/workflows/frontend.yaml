@@ -15,5 +15,5 @@ jobs:
         working-directory: "./web"
         run: |
           docker login --username tfkhdyt --password ${{ secrets.DOCKER_PASS }}
-          docker build -t tfkhdyt/gan-an-wo-web:latest --build-arg API_URL=${{ env.API_URL }} .
+          docker build -t tfkhdyt/gan-an-wo-web:latest --build-arg API_URL=${{ secrets.API_URL }} .
           docker push tfkhdyt/gan-an-wo-web:latest
