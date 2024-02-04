@@ -23,6 +23,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
 import { Input, ResponseMessage } from "@/types/leaderboard";
 import { Leaderboard } from "@/components/leaderboard";
+import { MobileLeaderboard } from "@/components/mobile-leaderboard";
 
 export default function Home() {
 	const form = useForm<Input>();
@@ -31,6 +32,7 @@ export default function Home() {
 	const [isModalOpen, setModalOpen] = useState(false);
 
 	const scoreEl = useRef<HTMLDivElement>(null);
+	const pageEl = useRef<HTMLDivElement>(null);
 
 	const aniesAudio = new Howl({ src: "/sfx/anies.mp3" });
 	const prabowoAudio = new Howl({ src: "/sfx/prabowo.mp3" });
@@ -78,47 +80,49 @@ export default function Home() {
 	};
 
 	useEffect(() => {
-		const handleClick = (event: {
-			preventDefault: () => void;
-			target: { classList: { contains: (str: string) => boolean } };
-		}) => {
-			event.preventDefault();
-			if (!event.target.classList.contains("noaction")) {
-				incrementScore();
-			}
-		};
+		if (pageEl.current) {
+			const handleClick = (event: {
+				preventDefault: () => void;
+				target: { classList: { contains: (str: string) => boolean } };
+			}) => {
+				event.preventDefault();
+				if (!event.target.classList.contains("noaction")) {
+					incrementScore();
+				}
+			};
 
-		const handleTouch = (event: {
-			preventDefault: () => void;
-			touches: { length: number };
-			target: { classList: { contains: (str: string) => boolean } };
-		}) => {
-			event.preventDefault();
-			if (
-				event.touches.length <= 1 &&
-				!event.target.classList.contains("noaction")
-			) {
-				incrementScore();
-			}
-		};
+			const handleTouch = (event: {
+				preventDefault: () => void;
+				touches: { length: number };
+				target: { classList: { contains: (str: string) => boolean } };
+			}) => {
+				event.preventDefault();
+				if (
+					event.touches.length <= 1 &&
+					!event.target.classList.contains("noaction")
+				) {
+					incrementScore();
+				}
+			};
 
-		// @ts-expect-error
-		document.addEventListener("touchstart", handleTouch);
-		document.addEventListener("touchstart", () =>
-			scoreEl.current?.classList.remove("popout"),
-		);
-		// @ts-expect-error
-		document.addEventListener("mousedown", handleClick);
-		document.addEventListener("mouseup", () =>
-			scoreEl.current?.classList.remove("popout"),
-		);
-
-		return () => {
 			// @ts-expect-error
-			document.removeEventListener("touchstart", handleTouch);
+			pageEl.current.addEventListener("touchstart", handleTouch);
+			pageEl.current.addEventListener("touchstart", () =>
+				scoreEl.current?.classList.remove("popout"),
+			);
 			// @ts-expect-error
-			document.removeEventListener("mousedown", handleClick);
-		};
+			pageEl.current.addEventListener("mousedown", handleClick);
+			pageEl.current.addEventListener("mouseup", () =>
+				scoreEl.current?.classList.remove("popout"),
+			);
+
+			return () => {
+				// @ts-expect-error
+				pageEl.current.removeEventListener("touchstart", handleTouch);
+				// @ts-expect-error
+				pageEl.current.removeEventListener("mousedown", handleClick);
+			};
+		}
 	}, [incrementScore]);
 
 	useEffect(() => {
@@ -142,13 +146,14 @@ export default function Home() {
 				backgroundRepeat: "no-repeat",
 				backgroundSize: "cover",
 			}}
+			ref={pageEl}
 		>
 			<div className="absolute top-14 inset-x-0 mx-auto">
-				<h1 className="text-7xl font-extrabold text-center text-white drop-shadow-[0px_2px_4px_rgba(0,0,0,1)] mb-4">
+				<h1 className="text-5xl lg:text-7xl font-extrabold text-center text-white drop-shadow-[0px_2px_4px_rgba(0,0,0,1)] mb-4">
 					GAN AN WO
 				</h1>
 				<div
-					className="text-6xl font-extrabold text-center text-white drop-shadow-[0_3px_3px_rgba(0,0,0,1)]"
+					className="text-5xl lg:text-6xl font-extrabold text-center text-white drop-shadow-[0_3px_3px_rgba(0,0,0,1)]"
 					ref={scoreEl}
 				>
 					{localScore}
@@ -164,18 +169,18 @@ export default function Home() {
 					</AlertDialogHeader>
 					<div>
 						<Form {...form}>
-							<div className="w-full flex flex-col">
+							<div className="w-full flex flex-col mt-2">
 								<form onSubmit={form.handleSubmit(onSubmit)}>
 									<FormField
 										control={form.control}
 										name="paslon"
 										render={({ field }) => (
-											<FormItem>
+											<FormItem className="overflow-y-auto max-h-[400px]">
 												<FormControl>
 													<RadioGroup
 														onValueChange={field.onChange}
 														defaultValue={field.value}
-														className="flex mt-5"
+														className="grid grid-cols-1 md:grid-cols-3 gap-2"
 													>
 														<div className="w-full">
 															<RadioGroupItem
@@ -348,11 +353,13 @@ export default function Home() {
 					</div>
 				</AlertDialogContent>
 			</AlertDialog>
-			<div className="absolute top-10 right-10 space-y-4 flex flex-col items-end">
+			<div className="absolute bottom-5 lg:top-10 lg:right-10 space-y-4 flex flex-col items-end w-full lg:w-auto px-4">
 				<Leaderboard leaderboard={leaderboard} />
+				<MobileLeaderboard leaderboard={leaderboard} paslon={Number(paslon)} />
 				<Button
-					className="bg-gray-100/95 hover:bg-gray-300/95 backdrop-blur text-black noaction"
-					onClick={() => {
+					className="bg-gray-100/95 hover:bg-gray-300/95 backdrop-blur text-black noaction hidden lg:block"
+					onClick={(e) => {
+						e.stopPropagation();
 						setPaslon(null);
 					}}
 				>
@@ -360,7 +367,7 @@ export default function Home() {
 				</Button>
 			</div>
 			{paslon && (
-				<div className="absolute bottom-10 left-10">
+				<div className="absolute bottom-10 left-10 hidden lg:block">
 					<Image
 						src={match(paslon)
 							.with("1", () => "/img/logo/amin.svg")
