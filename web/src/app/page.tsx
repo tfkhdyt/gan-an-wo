@@ -212,7 +212,7 @@ export default function Home() {
 																	<h1 className='text-2xl font-bold'>1</h1>
 																</div>
 																<Separator />
-																<div className='grid grid-cols-2 mt-5'>
+																<div className='grid grid-cols-2 mt-5 items-start'>
 																	<div className='flex flex-col items-center justify-center gap-3'>
 																		<Image
 																			alt='paslon-1'
@@ -221,7 +221,7 @@ export default function Home() {
 																			width={100}
 																			height={100}
 																		/>
-																		<div className='flex flex-col items-center justify-center'>
+																		<div className='flex flex-col items-center justify-center space-y-1 text-center'>
 																			<p className='font-bold text-base'>
 																				Calon Presiden
 																			</p>
@@ -238,7 +238,7 @@ export default function Home() {
 																			width={100}
 																			height={100}
 																		/>
-																		<div className='flex flex-col items-center justify-center'>
+																		<div className='flex flex-col items-center justify-center space-y-1 text-center'>
 																			<p className='font-bold text-base'>
 																				Calon Wakil Presiden
 																			</p>
@@ -265,7 +265,7 @@ export default function Home() {
 																	<h1 className='text-2xl font-bold'>2</h1>
 																</div>
 																<Separator />
-																<div className='grid grid-cols-2 mt-5'>
+																<div className='grid grid-cols-2 mt-5 items-start'>
 																	<div className='flex flex-col items-center justify-center gap-3'>
 																		<Image
 																			alt='paslon-2'
@@ -274,7 +274,7 @@ export default function Home() {
 																			width={100}
 																			height={100}
 																		/>
-																		<div className='flex flex-col items-center justify-center'>
+																		<div className='flex flex-col items-center justify-center space-y-1 text-center'>
 																			<p className='font-bold text-base'>
 																				Calon Presiden
 																			</p>
@@ -291,7 +291,7 @@ export default function Home() {
 																			width={100}
 																			height={100}
 																		/>
-																		<div className='flex flex-col items-center justify-center'>
+																		<div className='flex flex-col items-center justify-center space-y-1 text-center'>
 																			<p className='font-bold text-base'>
 																				Calon Wakil Presiden
 																			</p>
@@ -318,7 +318,7 @@ export default function Home() {
 																	<h1 className='text-2xl font-bold'>3</h1>
 																</div>
 																<Separator />
-																<div className='grid grid-cols-2 mt-5'>
+																<div className='grid grid-cols-2 mt-5 items-start'>
 																	<div className='flex flex-col items-center justify-center gap-3'>
 																		<Image
 																			alt='paslon-3'
@@ -327,7 +327,7 @@ export default function Home() {
 																			width={100}
 																			height={100}
 																		/>
-																		<div className='flex flex-col items-center justify-center'>
+																		<div className='flex flex-col items-center justify-center space-y-1 text-center'>
 																			<p className='font-bold text-base'>
 																				Calon Presiden
 																			</p>
@@ -344,7 +344,7 @@ export default function Home() {
 																			width={100}
 																			height={100}
 																		/>
-																		<div className='flex flex-col items-center justify-center'>
+																		<div className='flex flex-col items-center justify-center space-y-1 text-center'>
 																			<p className='font-bold text-base'>
 																				Calon Wakil Presiden
 																			</p>
