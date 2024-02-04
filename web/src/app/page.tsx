@@ -3,7 +3,7 @@
 import { Howl } from "howler";
 import { useAtom } from "jotai/react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import useWebSocket from "react-use-websocket";
 import { match } from "ts-pattern";
@@ -29,6 +29,8 @@ export default function Home() {
 	const [paslon, setPaslon] = useAtom(pilihanCapresAtom);
 	const [localScore, setLocalScore] = useAtom(localScoreAtom);
 	const [isModalOpen, setModalOpen] = useState(false);
+
+	const scoreEl = useRef<HTMLDivElement>(null);
 
 	const aniesAudio = new Howl({ src: "/sfx/anies.mp3" });
 	const prabowoAudio = new Howl({ src: "/sfx/prabowo.mp3" });
@@ -68,8 +70,9 @@ export default function Home() {
 
 	const incrementScore = () => {
 		if (paslon) {
-			playAudio(paslon);
+			scoreEl.current?.classList.add("popout");
 			setLocalScore((score) => score + 1);
+			playAudio(paslon);
 			sendMessage(paslon);
 		}
 	};
@@ -101,8 +104,14 @@ export default function Home() {
 
 		// @ts-expect-error
 		document.addEventListener("touchstart", handleTouch);
+		document.addEventListener("touchstart", () =>
+			scoreEl.current?.classList.remove("popout"),
+		);
 		// @ts-expect-error
 		document.addEventListener("mousedown", handleClick);
+		document.addEventListener("mouseup", () =>
+			scoreEl.current?.classList.remove("popout"),
+		);
 
 		return () => {
 			// @ts-expect-error
@@ -134,10 +143,16 @@ export default function Home() {
 				backgroundSize: "cover",
 			}}
 		>
-			<div className="text-center">
-				<h1 className="text-2xl">Gan-An-Wo</h1>
-				<h1 className="text-2xl">Anda Memilih Paslon No {paslon}</h1>
-				<h1 className="text-2xl">Skor {localScore}</h1>
+			<div className="absolute top-14 inset-x-0 mx-auto">
+				<h1 className="text-7xl font-extrabold text-center text-white drop-shadow-[0px_2px_4px_rgba(0,0,0,1)] mb-4">
+					GAN AN WO
+				</h1>
+				<div
+					className="text-6xl font-extrabold text-center text-white drop-shadow-[0_3px_3px_rgba(0,0,0,1)]"
+					ref={scoreEl}
+				>
+					{localScore}
+				</div>
 			</div>
 
 			<AlertDialog open={isModalOpen}>
