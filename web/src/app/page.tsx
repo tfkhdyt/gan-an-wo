@@ -371,9 +371,9 @@ export default function Home() {
 				<div className='absolute bottom-10 left-10 hidden lg:block'>
 					<Image
 						src={match(paslon)
-							.with('1', () => '/img/logo/amin.svg')
-							.with('2', () => '/img/logo/prabowo-gibran.png')
-							.with('3', () => '/img/logo/ganjar-mahfud.png')
+							.with('1', () => '/img/logo/amin.webp')
+							.with('2', () => '/img/logo/prabowo-gibran.webp')
+							.with('3', () => '/img/logo/ganjar-mahfud.webp')
 							.otherwise(() => '')}
 						alt=''
 						width={400}
