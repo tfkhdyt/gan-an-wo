@@ -24,6 +24,7 @@ import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
 import { SubmitHandler, useForm } from "react-hook-form";
 import useWebSocket from "react-use-websocket";
+import { Metadata } from "next";
 
 type Input = {
 	paslon: string;
