@@ -3,16 +3,32 @@ pre-commit:
   commands:
     backend-lint:
       root: "api/"
+      glob: '**/*.go'
       run: golangci-lint run
     backend-format:
       root: "api/"
+      glob: '**/*.go'
       run: gofumpt -w .
     backend-lines:
       root: "api/"
+      glob: '**/*.go'
       run: golines -m 80 -w .
+    frontend-format:
+      root: "web/"
+      glob: '**/*.{js,ts,jsx,tsx}'
+      run: pnpm biome check --apply-unsafe {staged_files}
 pre-push:
   parallel: true
   commands:
     backend-outdated-deps:
       root: "api/"
+      glob: '**/*.go'
       run: test $(go list -u -m -json all | go-mod-outdated -update -direct | wc -l) -eq 4
+    frontend-outdated-deps:
+      root: "web/"
+      glob: '**/*.{js,ts,jsx,tsx}'
+      run: pnpx taze --failOnOutdated
+    frontend-check:
+      root: "web/"
+      glob: '**/*.{js,ts,jsx,tsx}'
+      run: pnpm biome check ./src
