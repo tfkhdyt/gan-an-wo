@@ -1,6 +1,6 @@
-import { atomWithStorage } from "jotai/utils";
+import { atomWithStorage } from 'jotai/utils';
 
 export const pilihanCapresAtom = atomWithStorage<string | null | undefined>(
-	"pilihan-capres",
+	'pilihan-capres',
 	null,
 );

@@ -1,3 +1,3 @@
-import { atomWithStorage } from "jotai/utils";
+import { atomWithStorage } from 'jotai/utils';
 
-export const localScoreAtom = atomWithStorage("skor", 0);
+export const localScoreAtom = atomWithStorage('skor', 0);
