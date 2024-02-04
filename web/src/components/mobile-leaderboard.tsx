@@ -34,30 +34,34 @@ export function MobileLeaderboard({
 	const setPaslon = useSetAtom(pilihanCapresAtom);
 
 	return (
-		<div className='lg:hidden w-full'>
+		<div className='lg:hidden w-full noaction'>
 			<Drawer>
-				<DrawerTrigger className='w-full '>
-					<Card className='w-full bg-gray-100/95 backdrop-blur '>
-						<CardHeader className='p-3 '>
+				<DrawerTrigger className='w-full noaction'>
+					<Card className='w-full bg-gray-100/95 backdrop-blur noaction'>
+						<CardHeader className='p-3 noaction'>
 							{topScore && myPaslonScore ? (
-								<div className='flex justify-between items-center '>
-									<div className='flex items-center space-x-4'>
-										<div className='border-r-2 border-gray-300 pr-2'>
-											<div>🏆</div>
+								<div className='flex justify-between items-center noaction'>
+									<div className='flex items-center space-x-4 noaction'>
+										<div className='border-r-2 border-gray-300 pr-2 noaction'>
+											<div className='noaction'>🏆</div>
 										</div>
-										<div className='flex space-x-2 items-center text-sm'>
-											<div>{getEmoji(topScore.id)}</div>
-											<div>{topScore.score}</div>
+										<div className='flex space-x-2 items-center text-sm noaction'>
+											<div className='noaction'>{getEmoji(topScore.id)}</div>
+											<div className='noaction'>{topScore.score}</div>
 										</div>
 									</div>
-									<div>…</div>
-									<div className='flex items-center space-x-4'>
-										<div className='flex space-x-2 items-center'>
-											<div>{getEmoji(myPaslonScore.id)}</div>
-											<div className='font-semibold'>{myPaslonScore.score}</div>
+									<div className='noaction'>…</div>
+									<div className='flex items-center space-x-4 noaction'>
+										<div className='flex space-x-2 items-center noaction'>
+											<div className='noaction'>
+												{getEmoji(myPaslonScore.id)}
+											</div>
+											<div className='font-semibold noaction'>
+												{myPaslonScore.score}
+											</div>
 										</div>
-										<div className='border-l-2 border-gray-300 pl-2'>
-											<div>
+										<div className='border-l-2 border-gray-300 pl-2 noaction'>
+											<div className='noaction'>
 												{/* biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
 												<svg
 													xmlns='http://www.w3.org/2000/svg'
@@ -65,7 +69,7 @@ export function MobileLeaderboard({
 													viewBox='0 0 24 24'
 													stroke-width='1.5'
 													stroke='currentColor'
-													className='w-6 h-6 text-gray-400'
+													className='w-6 h-6 text-gray-400 noaction'
 												>
 													<path
 														stroke-linecap='round'
