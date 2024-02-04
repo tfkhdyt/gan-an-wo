@@ -122,7 +122,7 @@ export default function Home() {
 
 	return (
 		<div
-			className="flex min-h-screen bg-gray-100 flex-col items-center w-screen justify-center relative"
+			className="flex min-h-screen bg-black flex-col items-center w-screen justify-center relative"
 			style={{
 				backgroundImage: match(paslon)
 					.with("1", () => "url(/img/background/nasdem.webp)")
@@ -344,6 +344,20 @@ export default function Home() {
 					Ganti paslon
 				</Button>
 			</div>
+			{paslon && (
+				<div className="absolute bottom-10 left-10">
+					<Image
+						src={match(paslon)
+							.with("1", () => "/img/logo/amin.svg")
+							.with("2", () => "/img/logo/prabowo-gibran.png")
+							.with("3", () => "/img/logo/ganjar-mahfud.png")
+							.otherwise(() => "")}
+						alt=""
+						width={400}
+						height={400}
+					/>
+				</div>
+			)}
 		</div>
 	);
 }
