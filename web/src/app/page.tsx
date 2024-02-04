@@ -83,10 +83,10 @@ export default function Home() {
 	useEffect(() => {
 		if (pageEl.current) {
 			const handleClick = (event: {
-				preventDefault: () => void;
+				// preventDefault: () => void;
 				target: { classList: { contains: (str: string) => boolean } };
 			}) => {
-				event.preventDefault();
+				// event.preventDefault();
 				if (!event.target.classList.contains('noaction')) {
 					incrementScore();
 				}
@@ -97,7 +97,7 @@ export default function Home() {
 				touches: { length: number };
 				target: { classList: { contains: (str: string) => boolean } };
 			}) => {
-				event.preventDefault();
+				// event.preventDefault();
 				if (
 					event.touches.length <= 1 &&
 					!event.target.classList.contains('noaction')
