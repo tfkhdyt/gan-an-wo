@@ -1,5 +1,14 @@
 "use client";
 
+import { Howl } from "howler";
+import { useAtom } from "jotai/react";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import useWebSocket from "react-use-websocket";
+
+import { localScoreAtom } from "@/atom/local-score";
+import { pilihanCapresAtom } from "@/atom/pilihan-capres";
 import {
 	Accordion,
 	AccordionContent,
@@ -12,20 +21,11 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-
-import { useEffect, useState } from "react";
-
-import { localScoreAtom } from "@/atom/local-score";
-import { pilihanCapresAtom } from "@/atom/pilihan-capres";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
-import { useAtom } from "jotai/react";
-import Image from "next/image";
-import { SubmitHandler, useForm } from "react-hook-form";
-import useWebSocket from "react-use-websocket";
 
 type ResponseMessage = {
 	success: boolean;
@@ -43,10 +43,31 @@ type Partner = {
 };
 
 export default function Home() {
-	const [isModalOpen, setModalOpen] = useState(false);
 	const form = useForm<Input>();
 	const [paslon, setPaslon] = useAtom(pilihanCapresAtom);
 	const [localScore, setLocalScore] = useAtom(localScoreAtom);
+	const [isModalOpen, setModalOpen] = useState(false);
+
+	const aniesAudio = new Howl({ src: "/sfx/anies.mp3" });
+	const prabowoAudio = new Howl({ src: "/sfx/prabowo.mp3" });
+	const ganjarAudio = new Howl({ src: "/sfx/ganjar.mp3" });
+
+	const playAudio = (paslon: string) => {
+		switch (paslon) {
+			case "1":
+				aniesAudio.stop();
+				aniesAudio.play();
+				break;
+			case "2":
+				prabowoAudio.stop();
+				prabowoAudio.play();
+				break;
+			case "3":
+				ganjarAudio.stop();
+				ganjarAudio.play();
+				break;
+		}
+	};
 
 	const { sendMessage } = useWebSocket(
 		`${process.env.NEXT_PUBLIC_API_URL}/scores/submit`,
@@ -63,50 +84,36 @@ export default function Home() {
 		}
 	};
 
-	useEffect(() => {
+	const incrementScore = () => {
 		if (paslon) {
-			let audioFile = "";
-			switch (paslon) {
-				case "1":
-					audioFile = "/sfx/anies.mp3";
-					break;
-				case "2":
-					audioFile = "/sfx/prabowo.mp3";
-					break;
-				case "3":
-					audioFile = "/sfx/ganjar.mp3";
-					break;
-				default:
-					console.log("Tidak valid");
-					break;
-			}
-			const audio = new Audio(audioFile);
-
-			const handleClick = (event: { preventDefault: () => void }) => {
-				event.preventDefault();
-				handleSkor();
-				audio.pause();
-				sendMessage(paslon.toString());
-
-				audio.currentTime = 0;
-				audio.play();
-			};
-
-			const handleSkor = () => {
-				setLocalScore((score) => score + 1);
-			};
-
-			document.addEventListener("click", handleClick);
-			document.addEventListener("contextmenu", handleClick);
-			document.addEventListener("keypress", handleClick);
-
-			return () => {
-				document.removeEventListener("click", handleClick);
-				document.removeEventListener("contextmenu", handleClick);
-				document.removeEventListener("keypress", handleClick);
-			};
+			playAudio(paslon);
+			setLocalScore((score) => score + 1);
+			sendMessage(paslon);
 		}
-	});
+	};
+
+	useEffect(() => {
+		const handleClick = (event: { preventDefault: () => void }) => {
+			event.preventDefault();
+			incrementScore();
+		};
+
+		window.addEventListener("touchstart", (e) => {
+			if (e.touches.length <= 1) {
+				handleClick(e);
+			}
+		});
+		window.addEventListener("mousedown", handleClick);
+
+		return () => {
+			window.removeEventListener("touchstart", (e) => {
+				if (e.touches.length <= 1) {
+					handleClick(e);
+				}
+			});
+			window.removeEventListener("mousedown", handleClick);
+		};
+	}, [incrementScore]);
 
 	useEffect(() => {
 		if (paslon) {
@@ -151,6 +158,7 @@ export default function Home() {
 																value="1"
 																id="paslon-1"
 																className="peer sr-only group"
+																onClick={() => playAudio("1")}
 															/>
 															<Label
 																htmlFor="paslon-1"
@@ -203,6 +211,7 @@ export default function Home() {
 																value="2"
 																id="paslon-2"
 																className="peer sr-only group"
+																onClick={() => playAudio("2")}
 															/>
 															<Label
 																htmlFor="paslon-2"
@@ -255,6 +264,7 @@ export default function Home() {
 																value="3"
 																id="paslon-3"
 																className="peer sr-only group"
+																onClick={() => playAudio("3")}
 															/>
 															<Label
 																htmlFor="paslon-3"
