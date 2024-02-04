@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import useWebSocket from "react-use-websocket";
+import { match } from "ts-pattern";
 
 import { localScoreAtom } from "@/atom/local-score";
 import { pilihanCapresAtom } from "@/atom/pilihan-capres";
@@ -124,7 +125,19 @@ export default function Home() {
 	}, [paslon]);
 
 	return (
-		<div className="flex min-h-screen flex-col items-center bg-gray-100 w-screen justify-center relative">
+		<div
+			className="flex min-h-screen bg-gray-100 flex-col items-center w-screen justify-center relative"
+			style={{
+				backgroundImage: match(paslon)
+					.with("1", () => "url(/img/background/nasdem.webp)")
+					.with("2", () => "url(/img/background/gerindra.webp)")
+					.with("3", () => "url(/img/background/pdip.webp)")
+					.otherwise(() => undefined),
+				backgroundPosition: "center center",
+				backgroundRepeat: "no-repeat",
+				backgroundSize: "cover",
+			}}
+		>
 			<div className="text-center">
 				<h1 className="text-2xl">Gan-An-Wo</h1>
 				<h1 className="text-2xl">Anda Memilih Paslon No {paslon}</h1>
