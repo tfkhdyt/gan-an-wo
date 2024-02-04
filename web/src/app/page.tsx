@@ -11,12 +11,6 @@ import { match } from "ts-pattern";
 import { localScoreAtom } from "@/atom/local-score";
 import { pilihanCapresAtom } from "@/atom/pilihan-capres";
 import {
-	Accordion,
-	AccordionContent,
-	AccordionItem,
-	AccordionTrigger,
-} from "@/components/ui/accordion";
-import {
 	AlertDialog,
 	AlertDialogContent,
 	AlertDialogHeader,
@@ -27,21 +21,8 @@ import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Separator } from "@/components/ui/separator";
-
-type ResponseMessage = {
-	success: boolean;
-	data: Partner[];
-};
-
-type Input = {
-	paslon: string;
-};
-
-type Partner = {
-	id: number;
-	name: string;
-	score: number;
-};
+import { Input, ResponseMessage } from "@/types/leaderboard";
+import { Leaderboard } from "@/components/leaderboard";
 
 export default function Home() {
 	const form = useForm<Input>();
@@ -94,25 +75,40 @@ export default function Home() {
 	};
 
 	useEffect(() => {
-		const handleClick = (event: { preventDefault: () => void }) => {
+		const handleClick = (event: {
+			preventDefault: () => void;
+			target: { classList: { contains: (str: string) => boolean } };
+		}) => {
 			event.preventDefault();
-			incrementScore();
+			if (!event.target.classList.contains("noaction")) {
+				incrementScore();
+			}
 		};
 
-		window.addEventListener("touchstart", (e) => {
-			if (e.touches.length <= 1) {
-				handleClick(e);
+		const handleTouch = (event: {
+			preventDefault: () => void;
+			touches: { length: number };
+			target: { classList: { contains: (str: string) => boolean } };
+		}) => {
+			event.preventDefault();
+			if (
+				event.touches.length <= 1 &&
+				!event.target.classList.contains("noaction")
+			) {
+				incrementScore();
 			}
-		});
-		window.addEventListener("mousedown", handleClick);
+		};
+
+		// @ts-expect-error
+		document.addEventListener("touchstart", handleTouch);
+		// @ts-expect-error
+		document.addEventListener("mousedown", handleClick);
 
 		return () => {
-			window.removeEventListener("touchstart", (e) => {
-				if (e.touches.length <= 1) {
-					handleClick(e);
-				}
-			});
-			window.removeEventListener("mousedown", handleClick);
+			// @ts-expect-error
+			document.removeEventListener("touchstart", handleTouch);
+			// @ts-expect-error
+			document.removeEventListener("mousedown", handleClick);
 		};
 	}, [incrementScore]);
 
@@ -337,23 +333,16 @@ export default function Home() {
 					</div>
 				</AlertDialogContent>
 			</AlertDialog>
-			<div className="absolute bottom-0 w-64">
-				<Accordion type="single" collapsible>
-					<AccordionItem value="item-1">
-						<AccordionTrigger>Total Skor</AccordionTrigger>
-						<AccordionContent>
-							<div className="flex flex-col">
-								{leaderboard?.data.map((data) => {
-									return (
-										<p key={data.id}>
-											{data.name}: {data.score}
-										</p>
-									);
-								})}
-							</div>
-						</AccordionContent>
-					</AccordionItem>
-				</Accordion>
+			<div className="absolute top-10 right-10 space-y-4 flex flex-col items-end">
+				<Leaderboard leaderboard={leaderboard} />
+				<Button
+					className="bg-gray-100/95 hover:bg-gray-300/95 backdrop-blur text-black noaction"
+					onClick={() => {
+						setPaslon(null);
+					}}
+				>
+					Ganti paslon
+				</Button>
 			</div>
 		</div>
 	);
