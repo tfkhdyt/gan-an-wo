@@ -7,6 +7,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from './ui/card';
+import { getEmoji } from '@/lib/utils';
 
 export function Leaderboard({
 	leaderboard,
@@ -33,6 +34,7 @@ export function Leaderboard({
 													.with(3, () => '🥉')
 													.otherwise(() => undefined)}
 											</span>
+											<span>{getEmoji(data.id)}</span>
 											<span>{data.name}</span>
 										</span>
 										<span className='ml-auto font-semibold'>{data.score}</span>

@@ -85,9 +85,13 @@ export default function Home() {
 			const handleClick = (event: {
 				preventDefault: () => void;
 				target: { classList: { contains: (str: string) => boolean } };
+				currentTarget: { classList: { contains: (str: string) => boolean } };
 			}) => {
 				event.preventDefault();
-				if (!event.target.classList.contains('noaction')) {
+				if (
+					!event.target.classList.contains('noaction') &&
+					event.target === event.currentTarget
+				) {
 					incrementScore();
 				}
 			};
@@ -96,11 +100,13 @@ export default function Home() {
 				preventDefault: () => void;
 				touches: { length: number };
 				target: { classList: { contains: (str: string) => boolean } };
+				currentTarget: { classList: { contains: (str: string) => boolean } };
 			}) => {
 				event.preventDefault();
 				if (
 					event.touches.length <= 1 &&
-					!event.target.classList.contains('noaction')
+					!event.target.classList.contains('noaction') &&
+					event.target === event.currentTarget
 				) {
 					incrementScore();
 				}
