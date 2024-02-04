@@ -83,10 +83,10 @@ export default function Home() {
 	useEffect(() => {
 		if (pageEl.current) {
 			const handleClick = (event: {
-				// preventDefault: () => void;
+				preventDefault: () => void;
 				target: { classList: { contains: (str: string) => boolean } };
 			}) => {
-				// event.preventDefault();
+				event.preventDefault();
 				if (!event.target.classList.contains('noaction')) {
 					incrementScore();
 				}
@@ -97,7 +97,7 @@ export default function Home() {
 				touches: { length: number };
 				target: { classList: { contains: (str: string) => boolean } };
 			}) => {
-				// event.preventDefault();
+				event.preventDefault();
 				if (
 					event.touches.length <= 1 &&
 					!event.target.classList.contains('noaction')
@@ -108,7 +108,7 @@ export default function Home() {
 
 			// @ts-expect-error
 			pageEl.current.addEventListener('touchstart', handleTouch);
-			pageEl.current.addEventListener('touchstart', () =>
+			pageEl.current.addEventListener('touchend', () =>
 				scoreEl.current?.classList.remove('popout'),
 			);
 			// @ts-expect-error
@@ -121,7 +121,15 @@ export default function Home() {
 				// @ts-expect-error
 				pageEl.current.removeEventListener('touchstart', handleTouch);
 				// @ts-expect-error
+				pageEl.current.removeEventListener('touchend', () =>
+					scoreEl.current?.classList.remove('popout'),
+				);
+				// @ts-expect-error
 				pageEl.current.removeEventListener('mousedown', handleClick);
+				// @ts-expect-error
+				pageEl.current.removeEventListener('mouseup', () =>
+					scoreEl.current?.classList.remove('popout'),
+				);
 			};
 		}
 	}, [incrementScore]);
