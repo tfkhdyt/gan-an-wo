@@ -13,4 +13,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build and push the image
         working-directory: "./api"
-        run: "docker login --username tfkhdyt --password ${{ secrets.DOCKER_PASS }} \ndocker build -t tfkhdyt/gan-an-wo-api:latest .\ndocker push tfkhdyt/gan-an-wo-api:latest\n"
+        run: |
+          docker login --username tfkhdyt --password ${{ secrets.DOCKER_PASS }}
+          docker build -t tfkhdyt/gan-an-wo-api:latest .
+          docker push tfkhdyt/gan-an-wo-api:latest
