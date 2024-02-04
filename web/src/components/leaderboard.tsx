@@ -1,5 +1,8 @@
-import { ResponseMessage } from '@/types/leaderboard';
 import { match } from 'ts-pattern';
+
+import { getEmoji } from '@/lib/utils';
+import { ResponseMessage } from '@/types/leaderboard';
+
 import {
 	Card,
 	CardContent,
@@ -7,7 +10,6 @@ import {
 	CardHeader,
 	CardTitle,
 } from './ui/card';
-import { getEmoji } from '@/lib/utils';
 
 export function Leaderboard({
 	leaderboard,
