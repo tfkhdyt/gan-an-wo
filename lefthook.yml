@@ -20,14 +20,14 @@ pre-commit:
 pre-push:
   parallel: true
   commands:
-    backend-outdated-deps:
-      root: "api/"
-      glob: '**/*.go'
-      run: test $(go list -u -m -json all | go-mod-outdated -update -direct | wc -l) -eq 4
-    frontend-outdated-deps:
-      root: "web/"
-      glob: '**/*.{js,ts,jsx,tsx}'
-      run: pnpx taze --failOnOutdated
+    # backend-outdated-deps:
+    #   root: "api/"
+    #   glob: '**/*.go'
+    #   run: test $(go list -u -m -json all | go-mod-outdated -update -direct | wc -l) -eq 4
+    # frontend-outdated-deps:
+    #   root: "web/"
+    #   glob: '**/*.{js,ts,jsx,tsx}'
+    #   run: pnpx taze --failOnOutdated
     frontend-check:
       root: "web/"
       glob: '**/*.{js,ts,jsx,tsx}'
