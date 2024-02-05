@@ -25,6 +25,9 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Separator } from '@/components/ui/separator';
 import { Input, ResponseMessage } from '@/types/leaderboard';
+import { CheckIcon, CircleDollarSignIcon, ReplaceIcon } from 'lucide-react';
+import Link from 'next/link';
+import { formatNumber } from '@/lib/utils';
 
 export default function Home() {
 	const form = useForm<Input>();
@@ -145,7 +148,7 @@ export default function Home() {
 					className='text-5xl lg:text-6xl font-extrabold text-center text-white drop-shadow-[0_3px_3px_rgba(0,0,0,1)] w-fit'
 					ref={scoreEl}
 				>
-					{localScore}
+					{formatNumber(localScore)}
 				</p>
 			</div>
 
@@ -334,7 +337,10 @@ export default function Home() {
 										)}
 									/>
 									<div className='mt-5 flex items-center justify-end'>
-										<Button type='submit'>Lanjutkan</Button>
+										<Button type='submit'>
+											<CheckIcon className='mr-1 h-4 w-4' />
+											Lanjutkan
+										</Button>
 									</div>
 								</form>
 							</div>
@@ -343,20 +349,26 @@ export default function Home() {
 				</AlertDialogContent>
 			</AlertDialog>
 			<div
-				className='absolute bottom-5 lg:top-10 lg:right-10 space-y-4 flex flex-col items-end w-full lg:w-auto px-4'
+				className='absolute bottom-5 lg:top-10 lg:right-10 space-y-4 flex flex-col-reverse items-end w-full lg:w-auto px-4'
 				ref={leaderboardEl}
 			>
 				<Leaderboard leaderboard={leaderboard} />
 				<MobileLeaderboard leaderboard={leaderboard} paslon={Number(paslon)} />
 				<Button
-					className='bg-gray-100/95 hover:bg-gray-300/95 backdrop-blur text-black noaction hidden lg:block'
+					className='bg-gray-100/95 hover:bg-gray-300/95 backdrop-blur text-black noaction hidden lg:flex items-center'
 					onClick={(e) => {
 						e.stopPropagation();
 						setPaslon(null);
 					}}
 				>
+					<ReplaceIcon className='mr-1 h-4 w-4' />
 					Ganti paslon
 				</Button>
+				<Link href='https://saweria.co/tfkhdyt' target='_blank'>
+					<Button className='bg-green-600 hover:bg-green-700'>
+						<CircleDollarSignIcon className='mr-1 h-4 w-4' /> Donate
+					</Button>
+				</Link>
 			</div>
 			{paslon && (
 				<div className='absolute bottom-10 left-10 hidden lg:block'>

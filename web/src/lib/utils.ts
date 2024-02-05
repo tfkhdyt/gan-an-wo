@@ -13,3 +13,9 @@ export function getEmoji(paslon: number) {
 		.with(3, () => '\u0033\uFE0F\u20E3')
 		.otherwise(() => '');
 }
+
+const numberFormat = new Intl.NumberFormat('id-ID');
+
+export function formatNumber(num: number) {
+	return numberFormat.format(num);
+}

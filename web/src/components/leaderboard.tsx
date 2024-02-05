@@ -1,6 +1,6 @@
 import { match } from 'ts-pattern';
 
-import { getEmoji } from '@/lib/utils';
+import { formatNumber, getEmoji } from '@/lib/utils';
 import { ResponseMessage } from '@/types/leaderboard';
 
 import {
@@ -39,7 +39,9 @@ export function Leaderboard({
 											<span>{getEmoji(data.id)}</span>
 											<span>{data.name}</span>
 										</span>
-										<span className='ml-auto font-semibold'>{data.score}</span>
+										<span className='ml-auto font-semibold'>
+											{formatNumber(data.score)}
+										</span>
 									</div>
 								);
 						  })

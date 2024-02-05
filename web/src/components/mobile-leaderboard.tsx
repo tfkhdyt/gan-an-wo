@@ -1,6 +1,6 @@
 import { isLeaderboardOpenAtom } from '@/atom/leaderboard';
 import { pilihanCapresAtom } from '@/atom/pilihan-capres';
-import { cn, getEmoji } from '@/lib/utils';
+import { cn, formatNumber, getEmoji } from '@/lib/utils';
 import { ResponseMessage } from '@/types/leaderboard';
 import { useAtom, useSetAtom } from 'jotai/react';
 import { match } from 'ts-pattern';
@@ -16,6 +16,7 @@ import {
 	DrawerTitle,
 	DrawerTrigger,
 } from './ui/drawer';
+import { ReplaceIcon, XCircleIcon } from 'lucide-react';
 
 export function MobileLeaderboard({
 	leaderboard,
@@ -46,7 +47,7 @@ export function MobileLeaderboard({
 										</div>
 										<div className='flex space-x-2 items-center text-sm '>
 											<div className=''>{getEmoji(topScore.id)}</div>
-											<div className=''>{topScore.score}</div>
+											<div className=''>{formatNumber(topScore.score)}</div>
 										</div>
 									</div>
 									<div className=''>…</div>
@@ -54,7 +55,7 @@ export function MobileLeaderboard({
 										<div className='flex space-x-2 items-center '>
 											<div className=''>{getEmoji(myPaslonScore.id)}</div>
 											<div className='font-semibold '>
-												{myPaslonScore.score}
+												{formatNumber(myPaslonScore.score)}
 											</div>
 										</div>
 										<div className='border-l-2 border-gray-300 pl-2 '>
@@ -113,7 +114,7 @@ export function MobileLeaderboard({
 												</span>
 											</span>
 											<span className='ml-auto font-semibold'>
-												{data.score}
+												{formatNumber(data.score)}
 											</span>
 										</div>
 									);
@@ -121,9 +122,13 @@ export function MobileLeaderboard({
 							: 'Loading...'}
 					</div>
 					<DrawerFooter>
-						<Button onClick={() => setPaslon(null)}>Ganti paslon</Button>
+						<Button onClick={() => setPaslon(null)}>
+							<ReplaceIcon className='mr-1 h-4 w-4' />
+							Ganti paslon
+						</Button>
 						<DrawerClose>
 							<Button variant='outline' className='w-full'>
+								<XCircleIcon className='mr-1 h-4 w-4' />
 								Close
 							</Button>
 						</DrawerClose>
