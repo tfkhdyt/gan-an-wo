@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"strconv"
 	"time"
 
 	"github.com/gofiber/contrib/websocket"
@@ -40,13 +39,7 @@ func (s *ScoreController) Submit(c *websocket.Conn) {
 			break
 		}
 
-		paslon, err := strconv.Atoi(string(msg))
-		if err != nil {
-			helper.SendErrorJSON(c, "input should be in integer")
-			break
-		}
-
-		response, err := s.scoreUsecase.Submit(paslon)
+		response, err := s.scoreUsecase.Submit(string(msg))
 		if err != nil {
 			helper.SendErrorJSON(c, err.Error())
 		}

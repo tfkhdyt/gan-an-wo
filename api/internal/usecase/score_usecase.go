@@ -1,7 +1,11 @@
 package usecase
 
 import (
+	"errors"
+	"strconv"
+
 	"github.com/tfkhdyt/gan-an-wo/api/internal/dto"
+	"github.com/tfkhdyt/gan-an-wo/api/internal/helper"
 	"github.com/tfkhdyt/gan-an-wo/api/internal/repository"
 )
 
@@ -32,7 +36,17 @@ func (s *ScoreUsecase) List() (*dto.ListScoreResponse, error) {
 	return response, nil
 }
 
-func (s *ScoreUsecase) Submit(paslon int) (*dto.SubmitScoreResponse, error) {
+func (s *ScoreUsecase) Submit(payload string) (*dto.SubmitScoreResponse, error) {
+	paslonStr, err := helper.DecryptAES(payload)
+	if err != nil {
+		return nil, err
+	}
+
+	paslon, err := strconv.Atoi(paslonStr)
+	if err != nil {
+		return nil, errors.New("failed to convert payload to int")
+	}
+
 	if err := s.userRepo.Submit(paslon); err != nil {
 		return nil, err
 	}
