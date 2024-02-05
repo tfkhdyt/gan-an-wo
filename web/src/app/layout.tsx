@@ -5,7 +5,8 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-	title: 'Gan an wo',
+	title: 'GAN AN WO',
+	description: 'Game clicker bertemakan Pemilu 2024',
 };
 
 export default function RootLayout({
