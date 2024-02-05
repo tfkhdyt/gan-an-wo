@@ -2,7 +2,9 @@
 
 import { Howl } from 'howler';
 import { useAtom, useAtomValue } from 'jotai/react';
+import { CheckIcon, CircleDollarSignIcon, ReplaceIcon } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import useWebSocket from 'react-use-websocket';
@@ -24,10 +26,8 @@ import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Separator } from '@/components/ui/separator';
-import { Input, ResponseMessage } from '@/types/leaderboard';
-import { CheckIcon, CircleDollarSignIcon, ReplaceIcon } from 'lucide-react';
-import Link from 'next/link';
 import { formatNumber } from '@/lib/utils';
+import { Input, ResponseMessage } from '@/types/leaderboard';
 
 export default function Home() {
 	const form = useForm<Input>();

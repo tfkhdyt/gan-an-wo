@@ -1,9 +1,12 @@
+import { useAtom, useSetAtom } from 'jotai/react';
+import { ReplaceIcon, XCircleIcon } from 'lucide-react';
+import { match } from 'ts-pattern';
+
 import { isLeaderboardOpenAtom } from '@/atom/leaderboard';
 import { pilihanCapresAtom } from '@/atom/pilihan-capres';
 import { cn, formatNumber, getEmoji } from '@/lib/utils';
 import { ResponseMessage } from '@/types/leaderboard';
-import { useAtom, useSetAtom } from 'jotai/react';
-import { match } from 'ts-pattern';
+
 import { Button } from './ui/button';
 import { Card, CardHeader } from './ui/card';
 import {
@@ -16,7 +19,6 @@ import {
 	DrawerTitle,
 	DrawerTrigger,
 } from './ui/drawer';
-import { ReplaceIcon, XCircleIcon } from 'lucide-react';
 
 export function MobileLeaderboard({
 	leaderboard,
