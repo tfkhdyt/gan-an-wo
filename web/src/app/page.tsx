@@ -349,7 +349,7 @@ export default function Home() {
 				</AlertDialogContent>
 			</AlertDialog>
 			<div
-				className='absolute bottom-5 lg:top-10 lg:right-10 space-y-4 flex flex-col-reverse items-end w-full lg:w-auto px-4'
+				className='absolute bottom-5 lg:top-10 lg:right-10 space-y-4 flex flex-col-reverse lg:flex-col items-end w-full lg:w-auto px-4'
 				ref={leaderboardEl}
 			>
 				<Leaderboard leaderboard={leaderboard} />
