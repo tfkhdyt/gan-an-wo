@@ -3,6 +3,7 @@ module github.com/tfkhdyt/gan-an-wo/api
 go 1.21.6
 
 require (
+	github.com/Luzifer/go-openssl v2.0.0+incompatible
 	github.com/gofiber/contrib/websocket v1.3.0
 	github.com/gofiber/fiber/v2 v2.52.0
 	github.com/joho/godotenv v1.5.1
@@ -11,7 +12,6 @@ require (
 )
 
 require (
-	github.com/Luzifer/go-openssl v2.0.0+incompatible // indirect
 	github.com/andybalholm/brotli v1.1.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/fasthttp/websocket v1.5.7 // indirect

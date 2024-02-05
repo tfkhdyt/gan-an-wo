@@ -36,7 +36,9 @@ func (s *ScoreUsecase) List() (*dto.ListScoreResponse, error) {
 	return response, nil
 }
 
-func (s *ScoreUsecase) Submit(payload string) (*dto.SubmitScoreResponse, error) {
+func (s *ScoreUsecase) Submit(
+	payload string,
+) (*dto.SubmitScoreResponse, error) {
 	paslonStr, err := helper.DecryptAES(payload)
 	if err != nil {
 		return nil, err
