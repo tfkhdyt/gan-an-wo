@@ -115,7 +115,7 @@ export default function Home() {
 	}, [handleClick]);
 
 	useEffect(() => {
-		if (paslon) {
+		if (paslon && ['1', '2', '3'].includes(paslon)) {
 			setModalOpen(false);
 		} else {
 			setModalOpen(true);
