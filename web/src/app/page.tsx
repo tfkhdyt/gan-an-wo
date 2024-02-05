@@ -14,6 +14,7 @@ import { useEffect, useRef, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import useWebSocket from 'react-use-websocket';
 import { match } from 'ts-pattern';
+import { AES, enc, format, mode } from 'crypto-js';
 
 import { isLeaderboardOpenAtom } from '@/atom/leaderboard';
 import { localScoreAtom } from '@/atom/local-score';
@@ -79,6 +80,11 @@ export default function Home() {
 
 	const { sendMessage } = useWebSocket(
 		`${process.env.NEXT_PUBLIC_API_URL}/scores/submit`,
+		{
+			shouldReconnect: () => true,
+			reconnectAttempts: Infinity,
+			reconnectInterval: 1000,
+		},
 	);
 
 	const { lastJsonMessage: leaderboard } = useWebSocket<ResponseMessage | null>(
@@ -103,7 +109,12 @@ export default function Home() {
 			scoreEl.current?.classList.add('popout');
 			setLocalScore((score) => score + 1);
 			playAudio(paslon);
-			sendMessage(paslon);
+			const message = AES.encrypt(
+				paslon,
+				process.env.NEXT_PUBLIC_API_SECRET_KEY ?? '',
+			).toString();
+
+			sendMessage(message);
 		}
 	};
 
@@ -161,7 +172,7 @@ export default function Home() {
 			}}
 			ref={pageEl}
 		>
-			<div className='absolute top-14 inset-x-0 mx-auto flex flex-col items-center'>
+			<div className='absolute top-14 inset-x-0 mx-auto flex flex-col items-center select-none'>
 				<h1 className='text-5xl lg:text-7xl font-extrabold text-center text-white drop-shadow-[0px_2px_4px_rgba(0,0,0,1)] mb-4'>
 					GAN AN WO
 				</h1>
