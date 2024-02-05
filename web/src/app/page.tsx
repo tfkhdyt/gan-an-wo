@@ -83,61 +83,35 @@ export default function Home() {
 		}
 	};
 
+	const handleClick = (
+		event: MouseEvent & {
+			target: { classList: { contains: (str: string) => boolean } };
+		},
+	) => {
+		event.preventDefault();
+		if (
+			leaderboardEl.current &&
+			!event.composedPath().includes(leaderboardEl.current)
+		) {
+			incrementScore();
+		}
+	};
+
 	useEffect(() => {
-		const handleClick = (
-			event: MouseEvent & {
-				target: { classList: { contains: (str: string) => boolean } };
-			},
-		) => {
-			event.preventDefault();
-			if (
-				leaderboardEl.current &&
-				!event.composedPath().includes(leaderboardEl.current)
-			) {
-				incrementScore();
-			}
-		};
-
-		const handleTouch = (
-			event: TouchEvent & {
-				preventDefault: () => void;
-				target: { classList: { contains: (str: string) => boolean } };
-			},
-		) => {
-			event.preventDefault();
-			if (
-				event.touches.length <= 1 &&
-				leaderboardEl.current &&
-				!event.composedPath().includes(leaderboardEl.current)
-			) {
-				incrementScore();
-			}
-		};
-
 		// @ts-expect-error
-		window.addEventListener('touchstart', handleTouch);
-		window.addEventListener('touchend', () =>
-			scoreEl.current?.classList.remove('popout'),
-		);
-		// @ts-expect-error
-		window.addEventListener('mousedown', handleClick);
-		window.addEventListener('mouseup', () =>
+		window.addEventListener('pointerdown', handleClick);
+		window.addEventListener('pointerup', () =>
 			scoreEl.current?.classList.remove('popout'),
 		);
 
 		return () => {
 			// @ts-expect-error
-			window.removeEventListener('touchstart', handleTouch);
-			window.removeEventListener('touchend', () =>
-				scoreEl.current?.classList.remove('popout'),
-			);
-			// @ts-expect-error
-			window.removeEventListener('mousedown', handleClick);
-			window.removeEventListener('mouseup', () =>
+			window.removeEventListener('pointerdown', handleClick);
+			window.removeEventListener('pointerup', () =>
 				scoreEl.current?.classList.remove('popout'),
 			);
 		};
-	}, [incrementScore]);
+	}, [handleClick]);
 
 	useEffect(() => {
 		if (paslon) {
@@ -162,16 +136,16 @@ export default function Home() {
 			}}
 			ref={pageEl}
 		>
-			<div className='absolute top-14 inset-x-0 mx-auto'>
+			<div className='absolute top-14 inset-x-0 mx-auto flex flex-col items-center'>
 				<h1 className='text-5xl lg:text-7xl font-extrabold text-center text-white drop-shadow-[0px_2px_4px_rgba(0,0,0,1)] mb-4'>
 					GAN AN WO
 				</h1>
-				<div
-					className='text-5xl lg:text-6xl font-extrabold text-center text-white drop-shadow-[0_3px_3px_rgba(0,0,0,1)]'
+				<p
+					className='text-5xl lg:text-6xl font-extrabold text-center text-white drop-shadow-[0_3px_3px_rgba(0,0,0,1)] w-fit'
 					ref={scoreEl}
 				>
 					{localScore}
-				</div>
+				</p>
 			</div>
 
 			<AlertDialog open={isModalOpen}>
