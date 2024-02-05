@@ -84,14 +84,15 @@ export default function Home() {
 	};
 
 	const handleClick = (
-		event: MouseEvent & {
+		event: PointerEvent & {
 			target: { classList: { contains: (str: string) => boolean } };
 		},
 	) => {
 		event.preventDefault();
 		if (
 			leaderboardEl.current &&
-			!event.composedPath().includes(leaderboardEl.current)
+			!event.composedPath().includes(leaderboardEl.current) &&
+			event.isPrimary
 		) {
 			incrementScore();
 		}
