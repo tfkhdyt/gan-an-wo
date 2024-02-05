@@ -83,6 +83,11 @@ export default function Home() {
 
 	const { lastJsonMessage: leaderboard } = useWebSocket<ResponseMessage | null>(
 		`${process.env.NEXT_PUBLIC_API_URL}/scores/leaderboard`,
+		{
+			shouldReconnect: () => true,
+			reconnectAttempts: Infinity,
+			reconnectInterval: 1000,
+		},
 	);
 
 	const onSubmit: SubmitHandler<Input> = (data) => {
