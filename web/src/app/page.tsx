@@ -361,7 +361,7 @@ export default function Home() {
 				className='absolute bottom-5 lg:top-10 lg:right-10 space-y-4 flex flex-col-reverse lg:flex-col items-end w-full lg:w-auto px-4'
 				ref={leaderboardEl}
 			>
-				<Leaderboard leaderboard={leaderboard} />
+				<Leaderboard leaderboard={leaderboard} paslon={Number(paslon)} />
 				<MobileLeaderboard leaderboard={leaderboard} paslon={Number(paslon)} />
 				<Button
 					className='noaction hidden lg:flex items-center'

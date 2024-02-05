@@ -1,6 +1,6 @@
 import { match } from 'ts-pattern';
 
-import { formatNumber, getEmoji } from '@/lib/utils';
+import { cn, formatNumber, getEmoji } from '@/lib/utils';
 import { ResponseMessage } from '@/types/leaderboard';
 
 import {
@@ -13,7 +13,8 @@ import {
 
 export function Leaderboard({
 	leaderboard,
-}: { leaderboard: ResponseMessage | null }) {
+	paslon,
+}: { leaderboard: ResponseMessage | null; paslon: number }) {
 	return (
 		<Card className='hidden lg:block lg:min-w-96 bg-gray-100/95 backdrop-blur'>
 			<CardHeader>
@@ -37,7 +38,9 @@ export function Leaderboard({
 													.otherwise(() => undefined)}
 											</span>
 											<span>{getEmoji(data.id)}</span>
-											<span>{data.name}</span>
+											<span className={cn(data.id === paslon && 'font-bold')}>
+												{data.name}
+											</span>
 										</span>
 										<span className='ml-auto font-semibold'>
 											{formatNumber(data.score)}
