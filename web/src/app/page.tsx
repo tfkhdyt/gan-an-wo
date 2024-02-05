@@ -1,5 +1,6 @@
 'use client';
 
+import { AES } from 'crypto-js';
 import { Howl } from 'howler';
 import { useAtom, useAtomValue } from 'jotai/react';
 import {
@@ -14,7 +15,6 @@ import { useEffect, useRef, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import useWebSocket from 'react-use-websocket';
 import { match } from 'ts-pattern';
-import { AES, enc, format, mode } from 'crypto-js';
 
 import { isLeaderboardOpenAtom } from '@/atom/leaderboard';
 import { localScoreAtom } from '@/atom/local-score';
