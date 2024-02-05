@@ -35,8 +35,8 @@ export function MobileLeaderboard({
 	return (
 		<div className='lg:hidden w-full'>
 			<Drawer open={isLeaderboardOpen} onOpenChange={setIsLeaderboardOpen}>
-				<DrawerTrigger className='w-full'>
-					<Card className='w-full bg-gray-100/95 backdrop-blur '>
+				<DrawerTrigger className='w-full focus-visible:outline-none'>
+					<Card className='w-full bg-gray-100/95 backdrop-blur focus-visible:outline-none'>
 						<CardHeader className='p-3 '>
 							{topScore && myPaslonScore ? (
 								<div className='flex justify-between items-center '>
@@ -84,7 +84,7 @@ export function MobileLeaderboard({
 						</CardHeader>
 					</Card>
 				</DrawerTrigger>
-				<DrawerContent>
+				<DrawerContent className='focus-visible:outline-none'>
 					<DrawerHeader>
 						<DrawerTitle>Leaderboard</DrawerTitle>
 						<DrawerDescription>
@@ -107,6 +107,7 @@ export function MobileLeaderboard({
 														.with(3, () => '🥉')
 														.otherwise(() => undefined)}
 												</span>
+												<span>{getEmoji(data.id)}</span>
 												<span className={cn(data.id === paslon && 'font-bold')}>
 													{data.name}
 												</span>
