@@ -1,7 +1,7 @@
 import { pilihanCapresAtom } from '@/atom/pilihan-capres';
 import { cn, getEmoji } from '@/lib/utils';
 import { ResponseMessage } from '@/types/leaderboard';
-import { useSetAtom } from 'jotai/react';
+import { useAtom, useSetAtom } from 'jotai/react';
 import { match } from 'ts-pattern';
 import { Button } from './ui/button';
 import { Card, CardHeader } from './ui/card';
@@ -15,20 +15,27 @@ import {
 	DrawerTitle,
 	DrawerTrigger,
 } from './ui/drawer';
+import { isLeaderboardOpenAtom } from '@/atom/leaderboard';
 
 export function MobileLeaderboard({
 	leaderboard,
 	paslon,
-}: { leaderboard: ResponseMessage | null; paslon: number }) {
+}: {
+	leaderboard: ResponseMessage | null;
+	paslon: number;
+}) {
 	const topScore = leaderboard?.data[0];
 	const myPaslonScore = leaderboard?.data.find((dt) => dt.id === paslon);
 
 	const setPaslon = useSetAtom(pilihanCapresAtom);
+	const [isLeaderboardOpen, setIsLeaderboardOpen] = useAtom(
+		isLeaderboardOpenAtom,
+	);
 
 	return (
-		<div className='lg:hidden w-full '>
-			<Drawer>
-				<DrawerTrigger className='w-full '>
+		<div className='lg:hidden w-full'>
+			<Drawer open={isLeaderboardOpen} onOpenChange={setIsLeaderboardOpen}>
+				<DrawerTrigger className='w-full'>
 					<Card className='w-full bg-gray-100/95 backdrop-blur '>
 						<CardHeader className='p-3 '>
 							{topScore && myPaslonScore ? (
@@ -77,7 +84,7 @@ export function MobileLeaderboard({
 						</CardHeader>
 					</Card>
 				</DrawerTrigger>
-				<DrawerContent className='pointer-events-none'>
+				<DrawerContent>
 					<DrawerHeader>
 						<DrawerTitle>Leaderboard</DrawerTitle>
 						<DrawerDescription>

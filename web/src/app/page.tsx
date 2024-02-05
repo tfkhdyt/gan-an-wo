@@ -1,7 +1,7 @@
 'use client';
 
 import { Howl } from 'howler';
-import { useAtom } from 'jotai/react';
+import { useAtom, useAtomValue } from 'jotai/react';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -24,15 +24,18 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Separator } from '@/components/ui/separator';
 import { Input, ResponseMessage } from '@/types/leaderboard';
+import { isLeaderboardOpenAtom } from '@/atom/leaderboard';
 
 export default function Home() {
 	const form = useForm<Input>();
 	const [paslon, setPaslon] = useAtom(pilihanCapresAtom);
 	const [localScore, setLocalScore] = useAtom(localScoreAtom);
 	const [isModalOpen, setModalOpen] = useState(false);
+	const isLeaderboardOpen = useAtomValue(isLeaderboardOpenAtom);
 
 	const scoreEl = useRef<HTMLDivElement>(null);
 	const pageEl = useRef<HTMLDivElement>(null);
+	const leaderboardEl = useRef<HTMLDivElement>(null);
 
 	const aniesAudio = new Howl({ src: '/sfx/anies.mp3' });
 	const prabowoAudio = new Howl({ src: '/sfx/prabowo.mp3' });
@@ -72,7 +75,7 @@ export default function Home() {
 	};
 
 	const incrementScore = () => {
-		if (paslon) {
+		if (paslon && !isLeaderboardOpen) {
 			scoreEl.current?.classList.add('popout');
 			setLocalScore((score) => score + 1);
 			playAudio(paslon);
@@ -81,63 +84,59 @@ export default function Home() {
 	};
 
 	useEffect(() => {
-		if (pageEl.current) {
-			const handleClick = (event: {
+		const handleClick = (
+			event: MouseEvent & {
+				target: { classList: { contains: (str: string) => boolean } };
+			},
+		) => {
+			event.preventDefault();
+			if (
+				leaderboardEl.current &&
+				!event.composedPath().includes(leaderboardEl.current)
+			) {
+				incrementScore();
+			}
+		};
+
+		const handleTouch = (
+			event: TouchEvent & {
 				preventDefault: () => void;
 				target: { classList: { contains: (str: string) => boolean } };
-				currentTarget: { classList: { contains: (str: string) => boolean } };
-			}) => {
-				event.preventDefault();
-				if (
-					!event.target.classList.contains('noaction') &&
-					event.target === event.currentTarget
-				) {
-					incrementScore();
-				}
-			};
+			},
+		) => {
+			event.preventDefault();
+			if (
+				event.touches.length <= 1 &&
+				leaderboardEl.current &&
+				!event.composedPath().includes(leaderboardEl.current)
+			) {
+				incrementScore();
+			}
+		};
 
-			const handleTouch = (event: {
-				preventDefault: () => void;
-				touches: { length: number };
-				target: { classList: { contains: (str: string) => boolean } };
-				currentTarget: { classList: { contains: (str: string) => boolean } };
-			}) => {
-				event.preventDefault();
-				if (
-					event.touches.length <= 1 &&
-					!event.target.classList.contains('noaction') &&
-					event.target === event.currentTarget
-				) {
-					incrementScore();
-				}
-			};
+		// @ts-expect-error
+		window.addEventListener('touchstart', handleTouch);
+		window.addEventListener('touchend', () =>
+			scoreEl.current?.classList.remove('popout'),
+		);
+		// @ts-expect-error
+		window.addEventListener('mousedown', handleClick);
+		window.addEventListener('mouseup', () =>
+			scoreEl.current?.classList.remove('popout'),
+		);
 
+		return () => {
 			// @ts-expect-error
-			pageEl.current.addEventListener('touchstart', handleTouch);
-			pageEl.current.addEventListener('touchend', () =>
+			window.removeEventListener('touchstart', handleTouch);
+			window.removeEventListener('touchend', () =>
 				scoreEl.current?.classList.remove('popout'),
 			);
 			// @ts-expect-error
-			pageEl.current.addEventListener('mousedown', handleClick);
-			pageEl.current.addEventListener('mouseup', () =>
+			window.removeEventListener('mousedown', handleClick);
+			window.removeEventListener('mouseup', () =>
 				scoreEl.current?.classList.remove('popout'),
 			);
-
-			return () => {
-				// @ts-expect-error
-				pageEl.current.removeEventListener('touchstart', handleTouch);
-				// @ts-expect-error
-				pageEl.current.removeEventListener('touchend', () =>
-					scoreEl.current?.classList.remove('popout'),
-				);
-				// @ts-expect-error
-				pageEl.current.removeEventListener('mousedown', handleClick);
-				// @ts-expect-error
-				pageEl.current.removeEventListener('mouseup', () =>
-					scoreEl.current?.classList.remove('popout'),
-				);
-			};
-		}
+		};
 	}, [incrementScore]);
 
 	useEffect(() => {
@@ -368,7 +367,10 @@ export default function Home() {
 					</div>
 				</AlertDialogContent>
 			</AlertDialog>
-			<div className='absolute bottom-5 lg:top-10 lg:right-10 space-y-4 flex flex-col items-end w-full lg:w-auto px-4'>
+			<div
+				className='absolute bottom-5 lg:top-10 lg:right-10 space-y-4 flex flex-col items-end w-full lg:w-auto px-4'
+				ref={leaderboardEl}
+			>
 				<Leaderboard leaderboard={leaderboard} />
 				<MobileLeaderboard leaderboard={leaderboard} paslon={Number(paslon)} />
 				<Button
