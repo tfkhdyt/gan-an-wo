@@ -49,23 +49,30 @@ export default function Home() {
 	const pageEl = useRef<HTMLDivElement>(null);
 	const leaderboardEl = useRef<HTMLDivElement>(null);
 
-	const aniesAudio = new Howl({ src: '/sfx/anies.mp3' });
-	const prabowoAudio = new Howl({ src: '/sfx/prabowo.mp3' });
-	const ganjarAudio = new Howl({ src: '/sfx/ganjar.mp3' });
+	const aniesAudio = new Howl({ src: '/sfx/anies.wav' });
+	const prabowoAudio = new Howl({ src: '/sfx/prabowo.wav' });
+	const ganjarAudio = new Howl({ src: '/sfx/ganjar.wav' });
 
 	const playAudio = (paslon: string) => {
+		let id: number;
 		switch (paslon) {
 			case '1':
 				aniesAudio.stop();
-				aniesAudio.play();
+				id = aniesAudio.play();
+				aniesAudio.fade(0, 1, 25, id);
+				aniesAudio.fade(1, 0, 945, id);
 				break;
 			case '2':
 				prabowoAudio.stop();
-				prabowoAudio.play();
+				id = prabowoAudio.play();
+				prabowoAudio.fade(0, 1, 25, id);
+				prabowoAudio.fade(1, 0, 945, id);
 				break;
 			case '3':
 				ganjarAudio.stop();
-				ganjarAudio.play();
+				id = ganjarAudio.play();
+				ganjarAudio.fade(0, 1, 25, id);
+				ganjarAudio.fade(1, 0, 1765, id);
 				break;
 		}
 	};
