@@ -1,3 +1,4 @@
+import { isLeaderboardOpenAtom } from '@/atom/leaderboard';
 import { pilihanCapresAtom } from '@/atom/pilihan-capres';
 import { cn, getEmoji } from '@/lib/utils';
 import { ResponseMessage } from '@/types/leaderboard';
@@ -15,7 +16,6 @@ import {
 	DrawerTitle,
 	DrawerTrigger,
 } from './ui/drawer';
-import { isLeaderboardOpenAtom } from '@/atom/leaderboard';
 
 export function MobileLeaderboard({
 	leaderboard,

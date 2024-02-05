@@ -8,6 +8,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import useWebSocket from 'react-use-websocket';
 import { match } from 'ts-pattern';
 
+import { isLeaderboardOpenAtom } from '@/atom/leaderboard';
 import { localScoreAtom } from '@/atom/local-score';
 import { pilihanCapresAtom } from '@/atom/pilihan-capres';
 import { Leaderboard } from '@/components/leaderboard';
@@ -24,7 +25,6 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Separator } from '@/components/ui/separator';
 import { Input, ResponseMessage } from '@/types/leaderboard';
-import { isLeaderboardOpenAtom } from '@/atom/leaderboard';
 
 export default function Home() {
 	const form = useForm<Input>();
