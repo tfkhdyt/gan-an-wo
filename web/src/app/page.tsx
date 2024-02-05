@@ -2,7 +2,12 @@
 
 import { Howl } from 'howler';
 import { useAtom, useAtomValue } from 'jotai/react';
-import { CheckIcon, CircleDollarSignIcon, ReplaceIcon } from 'lucide-react';
+import {
+	BugIcon,
+	CheckIcon,
+	CircleDollarSignIcon,
+	ReplaceIcon,
+} from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
@@ -30,8 +35,12 @@ import { formatNumber } from '@/lib/utils';
 import { Input, ResponseMessage } from '@/types/leaderboard';
 
 export default function Home() {
-	const form = useForm<Input>();
 	const [paslon, setPaslon] = useAtom(pilihanCapresAtom);
+	const form = useForm<Input>({
+		defaultValues: {
+			paslon: paslon ?? undefined,
+		},
+	});
 	const [localScore, setLocalScore] = useAtom(localScoreAtom);
 	const [isModalOpen, setModalOpen] = useState(false);
 	const isLeaderboardOpen = useAtomValue(isLeaderboardOpenAtom);
@@ -337,7 +346,7 @@ export default function Home() {
 										)}
 									/>
 									<div className='mt-5 flex items-center justify-end'>
-										<Button type='submit'>
+										<Button type='submit' disabled={!form.watch('paslon')}>
 											<CheckIcon className='mr-1 h-4 w-4' />
 											Lanjutkan
 										</Button>
@@ -355,7 +364,7 @@ export default function Home() {
 				<Leaderboard leaderboard={leaderboard} />
 				<MobileLeaderboard leaderboard={leaderboard} paslon={Number(paslon)} />
 				<Button
-					className='bg-gray-100/95 hover:bg-gray-300/95 backdrop-blur text-black noaction hidden lg:flex items-center'
+					className='noaction hidden lg:flex items-center'
 					onClick={(e) => {
 						e.stopPropagation();
 						setPaslon(null);
@@ -364,11 +373,21 @@ export default function Home() {
 					<ReplaceIcon className='mr-1 h-4 w-4' />
 					Ganti paslon
 				</Button>
-				<Link href='https://saweria.co/tfkhdyt' target='_blank'>
-					<Button className='bg-green-600 hover:bg-green-700'>
-						<CircleDollarSignIcon className='mr-1 h-4 w-4' /> Donate
-					</Button>
-				</Link>
+				<div className='flex justify-between lg:justify-normal lg:flex-col items-end w-full lg:w-auto gap-4'>
+					<Link
+						href='https://github.com/tfkhdyt/gan-an-wo/issues/new'
+						target='_blank'
+					>
+						<Button variant='destructive'>
+							<BugIcon className='mr-1 h-4 w-4' /> Bug Report
+						</Button>
+					</Link>
+					<Link href='https://saweria.co/tfkhdyt' target='_blank'>
+						<Button className='bg-green-600 hover:bg-green-700'>
+							<CircleDollarSignIcon className='mr-1 h-4 w-4' /> Donate
+						</Button>
+					</Link>
+				</div>
 			</div>
 			{paslon && (
 				<div className='absolute bottom-10 left-10 hidden lg:block'>
