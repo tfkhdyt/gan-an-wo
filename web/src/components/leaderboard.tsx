@@ -15,7 +15,7 @@ export function Leaderboard({
 	leaderboard,
 }: { leaderboard: ResponseMessage | null }) {
 	return (
-		<Card className='hidden lg:block lg:w-72 bg-gray-100/95 backdrop-blur'>
+		<Card className='hidden lg:block lg:min-w-96 bg-gray-100/95 backdrop-blur'>
 			<CardHeader>
 				<CardTitle>Leaderboard</CardTitle>
 			</CardHeader>
