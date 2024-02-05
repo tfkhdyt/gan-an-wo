@@ -4,7 +4,7 @@ import { match } from 'ts-pattern';
 
 import { isLeaderboardOpenAtom } from '@/atom/leaderboard';
 import { pilihanCapresAtom } from '@/atom/pilihan-capres';
-import { cn, formatNumber, getEmoji } from '@/lib/utils';
+import { cn, formatNumber, formatNumberShort, getEmoji } from '@/lib/utils';
 import { ResponseMessage } from '@/types/leaderboard';
 
 import { Button } from './ui/button';
@@ -42,38 +42,38 @@ export function MobileLeaderboard({
 					<Card className='w-full bg-gray-100/95 backdrop-blur focus-visible:outline-none'>
 						<CardHeader className='p-3 '>
 							{topScore && myPaslonScore ? (
-								<div className='flex justify-between items-center '>
-									<div className='flex items-center space-x-4 '>
+								<div className='flex justify-between items-center'>
+									<div className='flex items-center space-x-4 shrink'>
 										<div className='border-r-2 border-gray-300 pr-2 '>
-											<div className=''>🏆</div>
+											<div>🏆</div>
 										</div>
 										<div className='flex space-x-2 items-center text-sm '>
-											<div className=''>{getEmoji(topScore.id)}</div>
-											<div className=''>{formatNumber(topScore.score)}</div>
+											<div>{getEmoji(topScore.id)}</div>
+											<div>{formatNumberShort(topScore.score)}</div>
 										</div>
 									</div>
-									<div className=''>…</div>
-									<div className='flex items-center space-x-4 '>
-										<div className='flex space-x-2 items-center '>
-											<div className=''>{getEmoji(myPaslonScore.id)}</div>
+									<div className='shrink'>…</div>
+									<div className='flex items-center space-x-4'>
+										<div className='flex space-x-2 items-center grow'>
+											<div>{getEmoji(myPaslonScore.id)}</div>
 											<div className='font-semibold '>
 												{formatNumber(myPaslonScore.score)}
 											</div>
 										</div>
 										<div className='border-l-2 border-gray-300 pl-2 '>
-											<div className=''>
+											<div>
 												{/* biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
 												<svg
 													xmlns='http://www.w3.org/2000/svg'
 													fill='none'
 													viewBox='0 0 24 24'
-													stroke-width='1.5'
+													strokeWidth='1.5'
 													stroke='currentColor'
 													className='w-6 h-6 text-gray-400 '
 												>
 													<path
-														stroke-linecap='round'
-														stroke-linejoin='round'
+														strokeLinecap='round'
+														strokeLinejoin='round'
 														d='m4.5 15.75 7.5-7.5 7.5 7.5'
 													/>
 												</svg>
