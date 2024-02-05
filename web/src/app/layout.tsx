@@ -1,8 +1,13 @@
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import '@fontsource/open-sauce-sans/300.css';
+import '@fontsource/open-sauce-sans/400.css';
+import '@fontsource/open-sauce-sans/500.css';
+import '@fontsource/open-sauce-sans/600.css';
+import '@fontsource/open-sauce-sans/700.css';
+import '@fontsource/open-sauce-sans/800.css';
+import '@fontsource/open-sauce-sans/900.css';
 import './globals.css';
 
-const inter = Inter({ subsets: ['latin'] });
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
 	title: 'GAN AN WO',
@@ -16,7 +21,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='en'>
-			<body className={inter.className}>{children}</body>
+			<body>{children}</body>
 		</html>
 	);
 }

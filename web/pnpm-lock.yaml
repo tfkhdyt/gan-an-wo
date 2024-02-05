@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@fontsource/open-sauce-sans':
+    specifier: ^5.0.7
+    version: 5.0.7
   '@hookform/resolvers':
     specifier: ^3.3.4
     version: 3.3.4(react-hook-form@7.50.0)
@@ -207,6 +210,10 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /@fontsource/open-sauce-sans@5.0.7:
+    resolution: {integrity: sha512-re8vz8Nyp6ldfTgYFNgVz835QfGmFc/InwCrcl0nUS9soRtS/PTA2WhxAmb+b10SmP/JHwHsGBLLCAHENgxjEg==}
+    dev: false
 
   /@hookform/resolvers@3.3.4(react-hook-form@7.50.0):
     resolution: {integrity: sha512-o5cgpGOuJYrd+iMKvkttOclgwRW86EsWJZZRC23prf0uU2i48Htq4PuT73AVb9ionFyZrwYEITuOFGF+BydEtQ==}
