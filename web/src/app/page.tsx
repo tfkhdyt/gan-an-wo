@@ -1,7 +1,6 @@
 'use client';
 
 import { AES } from 'crypto-js';
-import { Howl } from 'howler';
 import { useAtom, useAtomValue } from 'jotai/react';
 import {
 	BugIcon,
@@ -15,6 +14,7 @@ import { useEffect, useRef, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import useWebSocket from 'react-use-websocket';
 import { match } from 'ts-pattern';
+import useSound from 'use-sound';
 
 import { isLeaderboardOpenAtom } from '@/atom/leaderboard';
 import { localScoreAtom } from '@/atom/local-score';
@@ -50,30 +50,20 @@ export default function Home() {
 	const pageEl = useRef<HTMLDivElement>(null);
 	const leaderboardEl = useRef<HTMLDivElement>(null);
 
-	const aniesAudio = new Howl({ src: '/sfx/anies.wav' });
-	const prabowoAudio = new Howl({ src: '/sfx/prabowo.wav' });
-	const ganjarAudio = new Howl({ src: '/sfx/ganjar.wav' });
+	const [aniesPlay] = useSound('/sfx/anies.mp3', { interrupt: true });
+	const [prabowoPlay] = useSound('/sfx/prabowo.mp3', { interrupt: true });
+	const [ganjarPlay] = useSound('/sfx/ganjar.mp3', { interrupt: true });
 
 	const playAudio = (paslon: string) => {
-		let id: number;
 		switch (paslon) {
 			case '1':
-				aniesAudio.stop();
-				id = aniesAudio.play();
-				aniesAudio.fade(0, 1, 25, id);
-				aniesAudio.fade(1, 0, 945, id);
+				aniesPlay();
 				break;
 			case '2':
-				prabowoAudio.stop();
-				id = prabowoAudio.play();
-				prabowoAudio.fade(0, 1, 25, id);
-				prabowoAudio.fade(1, 0, 945, id);
+				prabowoPlay();
 				break;
 			case '3':
-				ganjarAudio.stop();
-				id = ganjarAudio.play();
-				ganjarAudio.fade(0, 1, 25, id);
-				ganjarAudio.fade(1, 0, 1765, id);
+				ganjarPlay();
 				break;
 		}
 	};

@@ -74,6 +74,9 @@ dependencies:
   ts-pattern:
     specifier: ^5.0.6
     version: 5.0.6
+  use-sound:
+    specifier: ^4.0.1
+    version: 4.0.1(react@18.2.0)
   vaul:
     specifier: ^0.9.0
     version: 0.9.0(@types/react-dom@18.2.18)(@types/react@18.2.52)(react-dom@18.2.0)(react@18.2.0)
@@ -2268,6 +2271,15 @@ packages:
       detect-node-es: 1.1.0
       react: 18.2.0
       tslib: 2.6.2
+    dev: false
+
+  /use-sound@4.0.1(react@18.2.0):
+    resolution: {integrity: sha512-hykJ86kNcu6y/FzlSHcQxhjSGMslZx2WlfLpZNoPbvueakv4OF3xPxEtGV2YmculrIaH0tPp9LtG4jgy17xMWg==}
+    peerDependencies:
+      react: '>=16.8'
+    dependencies:
+      howler: 2.2.4
+      react: 18.2.0
     dev: false
 
   /util-deprecate@1.0.2:
