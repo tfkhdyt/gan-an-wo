@@ -7,8 +7,8 @@ import '@fontsource/open-sauce-sans/800.css';
 import '@fontsource/open-sauce-sans/900.css';
 import './globals.css';
 
-import type { Metadata } from 'next';
 import { Provider } from 'jotai';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
 	title: 'GAN AN WO',

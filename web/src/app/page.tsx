@@ -1,7 +1,7 @@
 'use client';
 
 import { AES } from 'crypto-js';
-import { useAtom, useAtomValue } from 'jotai/react';
+import { useAtom } from 'jotai/react';
 import {
 	BugIcon,
 	CheckIcon,
@@ -44,7 +44,9 @@ export default function Home() {
 	});
 	const [localScore, setLocalScore] = useAtom(localScoreAtom);
 	const [isModalOpen, setModalOpen] = useState(false);
-	const isLeaderboardOpen = useAtomValue(isLeaderboardOpenAtom);
+	const [isLeaderboardOpen, setIsLeaderboardOpen] = useAtom(
+		isLeaderboardOpenAtom,
+	);
 
 	const scoreEl = useRef<HTMLDivElement>(null);
 	const pageEl = useRef<HTMLDivElement>(null);
@@ -91,6 +93,7 @@ export default function Home() {
 			setPaslon(data.paslon);
 			setLocalScore(0);
 			setModalOpen(false);
+			setIsLeaderboardOpen(false);
 		}
 	};
 
