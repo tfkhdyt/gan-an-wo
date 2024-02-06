@@ -8,6 +8,7 @@ import '@fontsource/open-sauce-sans/900.css';
 import './globals.css';
 
 import type { Metadata } from 'next';
+import { Provider } from 'jotai';
 
 export const metadata: Metadata = {
 	title: 'GAN AN WO',
@@ -21,7 +22,9 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='en'>
-			<body>{children}</body>
+			<body>
+				<Provider>{children}</Provider>
+			</body>
 		</html>
 	);
 }
