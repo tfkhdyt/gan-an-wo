@@ -110,7 +110,6 @@ export default function Home() {
 
 			sendMessage(message);
 			setClicked(true);
-			console.log('Clicked, should change image');
 		}
 	};
 

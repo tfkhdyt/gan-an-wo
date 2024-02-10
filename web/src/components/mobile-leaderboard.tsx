@@ -1,7 +1,7 @@
 import { useAtom } from 'jotai/react';
 import { ReplaceIcon, XCircleIcon } from 'lucide-react';
-import { match } from 'ts-pattern';
 import { MouseEventHandler } from 'react';
+import { match } from 'ts-pattern';
 
 import { isLeaderboardOpenAtom } from '@/atom/leaderboard';
 import { cn, formatNumber, formatNumberShort, getEmoji } from '@/lib/utils';
