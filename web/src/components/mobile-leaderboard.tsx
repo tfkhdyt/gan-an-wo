@@ -1,9 +1,9 @@
-import { useAtom, useSetAtom } from 'jotai/react';
+import { useAtom } from 'jotai/react';
 import { ReplaceIcon, XCircleIcon } from 'lucide-react';
 import { match } from 'ts-pattern';
+import { MouseEventHandler } from 'react';
 
 import { isLeaderboardOpenAtom } from '@/atom/leaderboard';
-import { pilihanCapresAtom } from '@/atom/pilihan-capres';
 import { cn, formatNumber, formatNumberShort, getEmoji } from '@/lib/utils';
 import { ResponseMessage } from '@/types/leaderboard';
 
@@ -23,14 +23,15 @@ import {
 export function MobileLeaderboard({
 	leaderboard,
 	paslon,
+	resetPaslon,
 }: {
 	leaderboard: ResponseMessage | null;
 	paslon: number;
+	resetPaslon: MouseEventHandler<HTMLButtonElement>;
 }) {
 	const topScore = leaderboard?.data[0];
 	const myPaslonScore = leaderboard?.data.find((dt) => dt.id === paslon);
 
-	const setPaslon = useSetAtom(pilihanCapresAtom);
 	const [isLeaderboardOpen, setIsLeaderboardOpen] = useAtom(
 		isLeaderboardOpenAtom,
 	);
@@ -124,7 +125,7 @@ export function MobileLeaderboard({
 							: 'Loading...'}
 					</div>
 					<DrawerFooter>
-						<Button onClick={() => setPaslon(null)}>
+						<Button onClick={resetPaslon}>
 							<ReplaceIcon className='mr-1 h-4 w-4' />
 							Ganti paslon
 						</Button>

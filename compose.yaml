@@ -1,13 +1,26 @@
 services:
-  server:
-    build: .
+  web:
+    image: tfkhdyt/gan-an-wo-web:latest
     restart: on-failure
     ports:
-      - '8080:8080'
+      - '3000:3000'
+    environment:
+      NEXT_PUBLIC_API_URL: ws://server:8080
+      NEXT_PUBLIC_API_SECRET_KEY: 22a1d6a4c1b63351
+    depends_on:
+      - server
+      - db
+  server:
+    # build: .
+    image: tfkhdyt/gan-an-wo-api:latest
+    restart: on-failure
+    # ports:
+    #   - '8080:8080'
     environment:
       APP_PORT: 8080
       MONGODB_URL: 'mongodb://mongo:mongo@db:27017'
       MONGODB_NAME: gan-an-wo
+      API_SECRET_KEY: 22a1d6a4c1b63351
     depends_on:
       - db
   db:

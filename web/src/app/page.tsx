@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
+import { MouseEventHandler, useEffect, useRef, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import useWebSocket from 'react-use-websocket';
 import { match } from 'ts-pattern';
@@ -47,6 +47,7 @@ export default function Home() {
 	const [isLeaderboardOpen, setIsLeaderboardOpen] = useAtom(
 		isLeaderboardOpenAtom,
 	);
+	const [clicked, setClicked] = useState(false);
 
 	const scoreEl = useRef<HTMLDivElement>(null);
 	const pageEl = useRef<HTMLDivElement>(null);
@@ -108,6 +109,8 @@ export default function Home() {
 			).toString();
 
 			sendMessage(message);
+			setClicked(true);
+			console.log('Clicked, should change image');
 		}
 	};
 
@@ -126,19 +129,26 @@ export default function Home() {
 		}
 	};
 
+	const resetPaslon: MouseEventHandler<HTMLButtonElement> = (e) => {
+		e.stopPropagation();
+		setPaslon(null);
+	};
+
 	useEffect(() => {
 		// @ts-expect-error
 		window.addEventListener('pointerdown', handleClick);
-		window.addEventListener('pointerup', () =>
-			scoreEl.current?.classList.remove('popout'),
-		);
+		window.addEventListener('pointerup', () => {
+			scoreEl.current?.classList.remove('popout');
+			setClicked(false);
+		});
 
 		return () => {
 			// @ts-expect-error
 			window.removeEventListener('pointerdown', handleClick);
-			window.removeEventListener('pointerup', () =>
-				scoreEl.current?.classList.remove('popout'),
-			);
+			window.removeEventListener('pointerup', () => {
+				scoreEl.current?.classList.remove('popout');
+				setClicked(false);
+			});
 		};
 	}, [handleClick]);
 
@@ -152,7 +162,7 @@ export default function Home() {
 
 	return (
 		<div
-			className='flex min-h-[100svh] bg-black flex-col items-center w-screen justify-center relative'
+			className='flex min-h-[100svh] bg-black flex-col items-center w-screen justify-center relative overflow-x-hidden'
 			style={{
 				backgroundImage: match(paslon)
 					.with('1', () => 'url(/img/background/nasdem.webp)')
@@ -373,18 +383,53 @@ export default function Home() {
 					</div>
 				</AlertDialogContent>
 			</AlertDialog>
+			<div className='absolute bottom-0 mx-auto'>
+				{match(paslon)
+					.with('1', () => (
+						<Image
+							src={`/img/character/anies-${clicked ? '01' : '00'}.webp`}
+							alt=''
+							width={750}
+							height={750}
+							unoptimized
+							className='scale-150 mb-20 lg:transform-none lg:mb-0'
+						/>
+					))
+					.with('2', () => (
+						<Image
+							src={`/img/character/prabowo-${clicked ? '01' : '00'}.webp`}
+							alt=''
+							width={750}
+							height={750}
+							unoptimized
+							className='scale-150 mb-20 -ml-10 lg:transform-none lg:mb-0 lg:ml-0'
+						/>
+					))
+					.with('3', () => (
+						<Image
+							src={`/img/character/ganjar-${clicked ? '01' : '00'}.webp`}
+							alt=''
+							width={750}
+							height={750}
+							unoptimized
+							className='scale-150 mb-20 lg:transform-none lg:mb-0'
+						/>
+					))
+					.otherwise(() => undefined)}
+			</div>
 			<div
 				className='absolute bottom-5 lg:top-10 lg:right-10 space-y-4 flex flex-col-reverse lg:flex-col items-end w-full lg:w-auto px-4'
 				ref={leaderboardEl}
 			>
 				<Leaderboard leaderboard={leaderboard} paslon={Number(paslon)} />
-				<MobileLeaderboard leaderboard={leaderboard} paslon={Number(paslon)} />
+				<MobileLeaderboard
+					leaderboard={leaderboard}
+					paslon={Number(paslon)}
+					resetPaslon={resetPaslon}
+				/>
 				<Button
 					className='noaction hidden lg:flex items-center'
-					onClick={(e) => {
-						e.stopPropagation();
-						setPaslon(null);
-					}}
+					onClick={resetPaslon}
 				>
 					<ReplaceIcon className='mr-1 h-4 w-4' />
 					Ganti paslon
