@@ -32,7 +32,7 @@ import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Separator } from '@/components/ui/separator';
-import { formatNumber } from '@/lib/utils';
+import { cn, formatNumber } from '@/lib/utils';
 import { Input, ResponseMessage } from '@/types/leaderboard';
 
 export default function Home() {
@@ -385,34 +385,82 @@ export default function Home() {
 			<div className='absolute bottom-0 mx-auto'>
 				{match(paslon)
 					.with('1', () => (
-						<Image
-							src={`/img/character/anies-${clicked ? '01' : '00'}.webp`}
-							alt=''
-							width={750}
-							height={750}
-							unoptimized
-							className='scale-150 mb-20 lg:transform-none lg:mb-0'
-						/>
+						<>
+							<Image
+								src='/img/character/anies-00.webp'
+								alt=''
+								width={750}
+								height={750}
+								priority
+								className={cn(
+									'scale-125 mb-20 lg:transform-none lg:mb-0',
+									clicked && 'hidden',
+								)}
+							/>
+							<Image
+								src='/img/character/anies-01.webp'
+								alt=''
+								width={750}
+								height={750}
+								priority
+								className={cn(
+									'scale-125 mb-20 lg:transform-none lg:mb-0 hidden',
+									clicked && 'block',
+								)}
+							/>
+						</>
 					))
 					.with('2', () => (
-						<Image
-							src={`/img/character/prabowo-${clicked ? '01' : '00'}.webp`}
-							alt=''
-							width={750}
-							height={750}
-							unoptimized
-							className='scale-150 mb-20 -ml-10 lg:transform-none lg:mb-0 lg:ml-0'
-						/>
+						<>
+							<Image
+								src='/img/character/prabowo-00.webp'
+								alt=''
+								width={750}
+								height={750}
+								priority
+								className={cn(
+									'scale-125 mb-20 lg:transform-none lg:mb-0',
+									clicked && 'hidden',
+								)}
+							/>
+							<Image
+								src='/img/character/prabowo-01.webp'
+								alt=''
+								width={750}
+								height={750}
+								priority
+								className={cn(
+									'scale-125 mb-20 lg:transform-none lg:mb-0 hidden',
+									clicked && 'block',
+								)}
+							/>
+						</>
 					))
 					.with('3', () => (
-						<Image
-							src={`/img/character/ganjar-${clicked ? '01' : '00'}.webp`}
-							alt=''
-							width={750}
-							height={750}
-							unoptimized
-							className='scale-150 mb-20 lg:transform-none lg:mb-0'
-						/>
+						<>
+							<Image
+								src='/img/character/ganjar-00.webp'
+								alt=''
+								width={750}
+								height={750}
+								priority
+								className={cn(
+									'scale-125 mb-20 lg:transform-none lg:mb-0',
+									clicked && 'hidden',
+								)}
+							/>
+							<Image
+								src='/img/character/ganjar-01.webp'
+								alt=''
+								width={750}
+								height={750}
+								priority
+								className={cn(
+									'scale-125 mb-20 lg:transform-none lg:mb-0 hidden',
+									clicked && 'block',
+								)}
+							/>
+						</>
 					))
 					.otherwise(() => undefined)}
 			</div>
