@@ -393,7 +393,7 @@ export default function Home() {
 								height={750}
 								priority
 								className={cn(
-									'scale-125 mb-20 lg:transform-none lg:mb-0',
+									'scale-125 md:transform-none',
 									clicked && 'hidden',
 								)}
 							/>
@@ -404,7 +404,7 @@ export default function Home() {
 								height={750}
 								priority
 								className={cn(
-									'scale-125 mb-20 lg:transform-none lg:mb-0 hidden',
+									'scale-125 md:transform-none hidden',
 									clicked && 'block',
 								)}
 							/>
@@ -419,7 +419,7 @@ export default function Home() {
 								height={750}
 								priority
 								className={cn(
-									'scale-125 mb-20 lg:transform-none lg:mb-0',
+									'scale-125 md:transform-none',
 									clicked && 'hidden',
 								)}
 							/>
@@ -430,7 +430,7 @@ export default function Home() {
 								height={750}
 								priority
 								className={cn(
-									'scale-125 mb-20 lg:transform-none lg:mb-0 hidden',
+									'scale-125 md:transform-none hidden',
 									clicked && 'block',
 								)}
 							/>
@@ -445,7 +445,7 @@ export default function Home() {
 								height={750}
 								priority
 								className={cn(
-									'scale-125 mb-20 lg:transform-none lg:mb-0',
+									'scale-125 md:transform-none',
 									clicked && 'hidden',
 								)}
 							/>
@@ -456,7 +456,7 @@ export default function Home() {
 								height={750}
 								priority
 								className={cn(
-									'scale-125 mb-20 lg:transform-none lg:mb-0 hidden',
+									'scale-125 md:transform-none hidden',
 									clicked && 'block',
 								)}
 							/>
