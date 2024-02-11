@@ -1,4 +1,4 @@
-FROM node:18.19.0-alpine3.19 AS builder
+FROM node:lts-alpine3.19 AS builder
 WORKDIR /app
 COPY package.json ./
 ARG API_URL
@@ -9,10 +9,10 @@ RUN npm i
 COPY . .
 RUN npm run build
 
-FROM gcr.io/distroless/nodejs18-debian12
+FROM gcr.io/distroless/nodejs20-debian12
 WORKDIR /app
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static/
 EXPOSE 3000
-CMD ["node", "server.js"]
+CMD ["server.js"]
