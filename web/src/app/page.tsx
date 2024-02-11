@@ -161,7 +161,7 @@ export default function Home() {
 
 	return (
 		<div
-			className='flex min-h-[100svh] bg-black flex-col items-center w-screen justify-center relative overflow-x-hidden'
+			className='flex min-h-[100dvh] bg-black flex-col items-center w-screen justify-center relative overflow-x-hidden'
 			style={{
 				backgroundImage: match(paslon)
 					.with('1', () => 'url(/img/background/nasdem.webp)')
