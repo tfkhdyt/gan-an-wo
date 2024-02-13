@@ -1,6 +1,6 @@
 module github.com/tfkhdyt/gan-an-wo/api
 
-go 1.21.6
+go 1.22
 
 require (
 	github.com/Luzifer/go-openssl v2.0.0+incompatible
