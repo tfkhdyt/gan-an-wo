@@ -13,7 +13,8 @@ func RegisterScoreRoute(app *fiber.App) {
 	scoreRoute := app.Group("/scores")
 
 	scoreRepoMongo := mongodb.NewScoreRepoMong()
-	scoreUsecase := usecase.NewScoreUsecase(scoreRepoMongo)
+	tokenRepoMongo := mongodb.NewTokenRepoMongo()
+	scoreUsecase := usecase.NewScoreUsecase(scoreRepoMongo, tokenRepoMongo)
 	scoreController := controller.NewScoreController(scoreUsecase)
 
 	scoreRoute.Get("/leaderboard", websocket.New(scoreController.List))

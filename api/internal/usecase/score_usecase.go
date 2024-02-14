@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"errors"
+	"fmt"
 	"strconv"
 
 	"github.com/tfkhdyt/gan-an-wo/api/internal/dto"
@@ -10,11 +11,12 @@ import (
 )
 
 type ScoreUsecase struct {
-	userRepo repository.ScoreRepo
+	userRepo  repository.ScoreRepo
+	tokenRepo repository.TokenRepo
 }
 
-func NewScoreUsecase(userRepo repository.ScoreRepo) *ScoreUsecase {
-	return &ScoreUsecase{userRepo}
+func NewScoreUsecase(userRepo repository.ScoreRepo, tokenRepo repository.TokenRepo) *ScoreUsecase {
+	return &ScoreUsecase{userRepo, tokenRepo}
 }
 
 func (s *ScoreUsecase) List() (*dto.ListScoreResponse, error) {
@@ -39,6 +41,11 @@ func (s *ScoreUsecase) List() (*dto.ListScoreResponse, error) {
 func (s *ScoreUsecase) Submit(
 	payload string,
 ) (*dto.SubmitScoreResponse, error) {
+	if err := s.tokenRepo.VerifyTokenAvailability(payload); err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+
 	paslonStr, err := helper.DecryptAES(payload)
 	if err != nil {
 		return nil, err
@@ -50,6 +57,10 @@ func (s *ScoreUsecase) Submit(
 	}
 
 	if err := s.userRepo.Submit(paslon); err != nil {
+		return nil, err
+	}
+
+	if err := s.tokenRepo.AddToken(payload); err != nil {
 		return nil, err
 	}
 
