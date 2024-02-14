@@ -15,7 +15,10 @@ type ScoreUsecase struct {
 	tokenRepo repository.TokenRepo
 }
 
-func NewScoreUsecase(userRepo repository.ScoreRepo, tokenRepo repository.TokenRepo) *ScoreUsecase {
+func NewScoreUsecase(
+	userRepo repository.ScoreRepo,
+	tokenRepo repository.TokenRepo,
+) *ScoreUsecase {
 	return &ScoreUsecase{userRepo, tokenRepo}
 }
 
